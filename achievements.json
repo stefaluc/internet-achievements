@@ -1,0 +1,18 @@
+{
+    'pageLoads1': {
+        'image': 'assets/images/1.jpg',
+        'description': 'pageLoads1'
+    }
+    'pageLoads2': {
+        'image': 'assets/images/2.jpg',
+        'description': 'pageLoads2'
+    }
+    'pageLoads3': {
+        'image': 'assets/images/3.jpg',
+        'description': 'pageLoads3'
+    }
+    'wiki': {
+        'image': 'assets/images/4.jpg',
+        'description': 'wiki'
+    }
+}

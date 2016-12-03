@@ -74,18 +74,21 @@ function updateKey(key, newVal) {
 
 // listens for changes in storage
 chrome.storage.onChanged.addListener(function(changes, namespace) {
-    var update = false;
+    var newAchievements = [];
     for (key in changes) {
         var change = changes[key];
         console.log("Storage key %s changed. Old val: %s, new val: %s", key, change.oldValue, change.newValue);
         console.log('onChanged change: ' + change);
         console.log('key: ' + key);
-        if (checkAchievement(key)) {
-            update = true;
+        // new achievement, or empty string if nothing updated
+        var achievement = checkAchievement(key);
+        if (achievement) {
+            newAchievements.push(achievement);
         }
     }
     // send message to popup to update
-    if (update) {
+    if (newAchievements) {
+        var message = {sender: "bg", achievements: newAchievements};
         chrome.runtime.sendMessage(message, function() {
             console.log('sending message to popup.js');
         }
@@ -96,34 +99,45 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 function checkAchievement(achievement) {
     switch achievement {
         case 'pageLoads':
-            pageLoads();
-            break;
+            return pageLoads();
         case 'wiki':
-            wiki();
-            break;
+            return wiki();
     }
+    console.log("Should not have reached (checkAcievement: %s)", achievement);
 }
 
 //--------Achievement checking functions--------//
 function pageLoads() {
     var numPageLoads;
-    chrome.storage.sync.get('pageLoads', function(result) {
+    chrome.storage.sync.get('numPageLoads', function(result) {
         numPageLoads = result.pageLoads;
         if (numPageLoads > 10000) {
-            chrome.storage.sync.set(('pageLoadsAch3': true));
-            return;
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('pagesLoad3' function(result) {
+                if (result.pageLodsAch1) { return ''; }
+                chrome.storage.sync.set(('pageLoads3': true));
+                return 'pageLoads3';
+            });
         }
         else if (numPageLoads > 1000) {
-            chrome.storage.sync.set(('pageLoadsAch2': true));
-            return;
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('pagesLoads2' function(result) {
+                if (result.pageLodsAch1) { return ''; }
+                chrome.storage.sync.set(('pageLoads2': true));
+                return 'pageLoads2;
+            });
         }
         else if (numPageLoads > 100) {
-            chrome.storage.sync.set(('pageLoadsAch1': true));
-            return;
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('pagesLoads1' function(result) {
+                if (result.pageLodsAch1) { return ''; }
+                chrome.storage.sync.set(('pageLoads1': true));
+                return 'pageLoads1';
+            });
         }
     });
 }
 
 function wiki() {
-
+    return '';
 }

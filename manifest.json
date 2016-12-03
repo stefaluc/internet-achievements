@@ -4,8 +4,6 @@
         "name": "Internet Achievements",
         "description": "",
         "version": "0.1",
-        "background": {
-        },
         "browser_action": {
             "default_title": "Internet Achievements"
         },
