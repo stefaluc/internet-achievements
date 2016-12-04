@@ -1,22 +1,3 @@
-var json = {
-    "pageLoads1": {
-        "image": "assets/images/1.jpg",
-        "description": "pageLoads1"
-    },
-    "pageLoads2": {
-        "image": "assets/images/2.jpg",
-        "description": "pageLoads2"
-    },
-    "pageLoads3": {
-        "image": "assets/images/3.jpg",
-        "description": "pageLoads3"
-    },
-    "wiki": {
-        "image": "assets/images/4.jpg",
-        "description": "wiki"
-    }
-}
-
 window.onload = function() {
     init();
 }
@@ -38,10 +19,13 @@ function init() {
     //var json = JSON.parse(achievements);
     console.log(json);
     var keys = Object.keys(json);
+    console.log(keys);
     for(var i=0; i < keys.length; i++) {
         var achieved = false;
         // check what achievements have been achieved
         chrome.storage.sync.get(keys[i], function(result) {
+            console.log(keys[i]);
+            console.log(result[keys[i]]);
             if (result[keys[i]]) {
                 achieved = true;
             }
@@ -51,5 +35,24 @@ function init() {
         } else {
             document.body.innerHTML += keys[i];
         }
+    }
+}
+
+var json = {
+    "pageLoads1": {
+        "image": "assets/images/1.jpg",
+        "description": "pageLoads1"
+    },
+    "pageLoads2": {
+        "image": "assets/images/2.jpg",
+        "description": "pageLoads2"
+    },
+    "pageLoads3": {
+        "image": "assets/images/3.jpg",
+        "description": "pageLoads3"
+    },
+    "wiki": {
+        "image": "assets/images/4.jpg",
+        "description": "wiki"
     }
 }

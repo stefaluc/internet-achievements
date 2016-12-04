@@ -1,5 +1,3 @@
-var achievements = ['pageLoads', 'wiki'];
-
 //--------Handle popup.html opening--------//
 // create popup tab, if already created, switch focus to it
 function openPopup() {
@@ -88,12 +86,13 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
         console.log('key: ' + key);
         // new achievement, or empty string if nothing updated
         var achievement = checkAchievement(key);
+        console.log(achievement);
         if (achievement) {
             newAchievements.push(achievement);
         }
     }
     // send message to popup to update
-    if (newAchievements) {
+    if (newAchievements.length) {
         var message = {sender: "bg", achievements: newAchievements};
         chrome.runtime.sendMessage(message, function() {
             console.log('sending message to popup.js');
