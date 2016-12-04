@@ -38,6 +38,7 @@ chrome.extension.onConnect.addListener(function(port) {
 //--------Handle messaging and storage updates--------//
 // called when the user clicks on the browser action icon
 chrome.browserAction.onClicked.addListener(function(tab) {
+    chrome.storage.local.clear();
     openPopup();
 });
 
@@ -46,27 +47,32 @@ chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         console.log('background.js received message');
         console.log(request);
-        updateKey('pageLoads');
+        updateKey('numPageLoads');
     }
 );
 
 // updates storage key
 function updateKey(key, newVal) {
     var value;
+    var json = {};
     // get current val
     chrome.storage.sync.get(key, function(result) {
         console.log(result);
-        console.log(result.pageLoads);
-        value = result.pageLoads;
+        console.log('result: ' + result[key]);
+        json[key] = result[key];
         // if value is not undefined update, else init 
-        if (value) { // update
-            if (typeof(value) == 'number') {
-                chrome.storage.sync.set({key: value++}); 
+        if (json[key]) { // update
+            if (typeof(json[key]) == 'number') {
+                json[key] = json[key] + 1;
+                console.log('key: ' + json[key]);
+                chrome.storage.sync.set(json); 
             } else {
-                chrome.storage.sync.set({key: newVal}); 
+                json[key] = newVal;
+                chrome.storage.sync.set(json); 
             }
         } else { // init
-            chrome.storage.sync.set({key: 1});
+            json[key] = 1;
+            chrome.storage.sync.set(json);
             console.log("initialized value");
         }
     });
@@ -91,16 +97,16 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
         var message = {sender: "bg", achievements: newAchievements};
         chrome.runtime.sendMessage(message, function() {
             console.log('sending message to popup.js');
-        }
+        });
     }
 });
 
 // check if an achievement is gained
 function checkAchievement(achievement) {
-    switch achievement {
-        case 'pageLoads':
+    switch (achievement) {
+        case 'numPageLoads':
             return pageLoads();
-        case 'wiki':
+        case 'numWikis':
             return wiki();
     }
     console.log("Should not have reached (checkAcievement: %s)", achievement);
@@ -113,25 +119,25 @@ function pageLoads() {
         numPageLoads = result.pageLoads;
         if (numPageLoads > 10000) {
             // set achievement to true if hasn't been achieved already
-            chrome.storage.sync.get('pagesLoad3' function(result) {
+            chrome.storage.sync.get('pagesLoad3', function(result) {
                 if (result.pageLodsAch1) { return ''; }
-                chrome.storage.sync.set(('pageLoads3': true));
+                chrome.storage.sync.set({'pageLoads3': true});
                 return 'pageLoads3';
             });
         }
         else if (numPageLoads > 1000) {
             // set achievement to true if hasn't been achieved already
-            chrome.storage.sync.get('pagesLoads2' function(result) {
+            chrome.storage.sync.get('pagesLoads2', function(result) {
                 if (result.pageLodsAch1) { return ''; }
-                chrome.storage.sync.set(('pageLoads2': true));
-                return 'pageLoads2;
+                chrome.storage.sync.set({'pageLoads2': true});
+                return 'pageLoads2';
             });
         }
-        else if (numPageLoads > 100) {
+        else if (numPageLoads > 1) {
             // set achievement to true if hasn't been achieved already
-            chrome.storage.sync.get('pagesLoads1' function(result) {
+            chrome.storage.sync.get('pagesLoads1', function(result) {
                 if (result.pageLodsAch1) { return ''; }
-                chrome.storage.sync.set(('pageLoads1': true));
+                chrome.storage.sync.set({'pageLoads1': true});
                 return 'pageLoads1';
             });
         }
