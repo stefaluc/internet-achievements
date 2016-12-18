@@ -115,11 +115,12 @@ function checkAchievement(achievement) {
 function pageLoads() {
     var numPageLoads;
     chrome.storage.sync.get('numPageLoads', function(result) {
-        numPageLoads = result.pageLoads;
+        numPageLoads = result['numPageLoads'];
+        console.log('[pageLoads()] numPageLoads: %s', numPageLoads);
         if (numPageLoads > 10000) {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoad3', function(result) {
-                if (result['pageLoads3']) { return ''; }
+                if (result['pageLoads3']) { return ''; } // already have achievement
                 chrome.storage.sync.set({'pageLoads3': true});
                 return 'pageLoads3';
             });
@@ -127,7 +128,7 @@ function pageLoads() {
         else if (numPageLoads > 1000) {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoads2', function(result) {
-                if (result['pageLoads2']) { return ''; }
+                if (result['pageLoads2']) { return ''; } // already have achievement
                 chrome.storage.sync.set({'pageLoads2': true});
                 return 'pageLoads2';
             });
@@ -136,7 +137,8 @@ function pageLoads() {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoads1', function(result) {
                 console.log('reached1');
-                if (result['pageLoads1']) { return ''; }
+                console.log('result: %s', result);
+                if (result['pageLoads1']) { return ''; } // already have achievement
                 chrome.storage.sync.set({'pageLoads1': true});
                 console.log('reached2');
                 return 'pageLoads1';

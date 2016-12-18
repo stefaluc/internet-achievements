@@ -20,22 +20,17 @@ function init() {
     console.log(json);
     var keys = Object.keys(json);
     console.log(keys);
-    for(var i=0; i < keys.length; i++) {
-        var achieved = false;
-        // check what achievements have been achieved
-        chrome.storage.sync.get(keys[i], function(result) {
-            console.log(keys[i]);
-            console.log(result[keys[i]]);
-            if (result[keys[i]]) {
-                achieved = true;
-            }
-        });
-        if (achieved) {
-            document.body.innerHMTL += '<b>' + keys[i]+ '</b>';
-        } else {
-            document.body.innerHTML += keys[i];
+    var achieved = false;
+    // check what achievements have been achieved
+    chrome.storage.sync.get(keys, function(result) {
+        console.log(result);
+        // display gained achievements
+        for(var i = 0; i < Object.keys(result).length; i++) {
+            document.body.innerHTML += '<b>' + keys[i]+ '</b>';
         }
-    }
+        // non-gained achievements
+        document.body.innerHTML += keys[i];
+    });
 }
 
 var json = {
