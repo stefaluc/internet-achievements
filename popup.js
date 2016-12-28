@@ -30,74 +30,94 @@ function init() {
 
     var keys = Object.keys(json);
     console.log(keys);
-    var achieved = false;
     var points = 0;
     // get gained achievements
     chrome.storage.sync.get(keys, function(result) {
         console.log(result);
-        container.innerHTML += '<div id="points"></div><br/>';
-        container.innerHTML += '<div class="row"></div>';
-        container.innerHTML += '<div class="row"></div>';
+        container.innerHTML += '<div id="achieved" class="row"></div>';
+        container.innerHTML += '<div id="unachieved" class="row"></div>';
         // display all achievements
         for(var i = 0; i < keys.length; i++) {
             if(result[keys[i]]) { // achieved
                 console.log(json[keys[i]].points);
                 points += json[keys[i]].points;
-                document.getElementsByClassName('row')[1].innerHTML += '<div class="col s12 m3"><div class="card hoverable"><div class="card-content blue-text text-darken-1"><span class="card-title">'+keys[i]+'</span><p>'+json[keys[i]].description+'</p></div><div class="card-action">10</div></div></div>';
+                document.getElementById('achieved').innerHTML += '<div class="col s12 m3"><div class="animated fadeIn card white hoverable"><div class="card-content blue-text text-darken-1"><span class="card-title">' + json[keys[i]].title + '</span><p class="grey-text text-darken-3">' + json[keys[i]].description + '</p></div><div class="card-action"><svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg><div class="points-card grey-text">' + json[keys[i]].points + ' pts</div></div></div></div>';
             } else { // not achieved
-                document.getElementsByClassName('row')[2].innerHTML += '<div class="col s12 m3"><div class="card white darken-3 hoverable"><div class="card-content blue-text text-darken-1"><span class="card-title">'+keys[i]+'</span><p>'+json[keys[i]].description+'</p></div><div class="card-action">unachieved</div></div></div>';
+                document.getElementById('unachieved').innerHTML += '<div class="col s12 m3"><div class="animated fadeIn card grey lighten-2 hoverable"><div class="card-content blue-text text-darken-1"><span class="card-title">' + json[keys[i]].title + '</span><p class="grey-text text-darken-3">' + json[keys[i]].description + '</p></div><div class="card-action"><i class="animated rotateIn material-icons" style="font-size:40px; color:red">not_interested</i><div class="points-card grey-text">' + json[keys[i]].points + ' pts</div></div></div></div>';
             }
         }
-        document.getElementById('points').innerHTML += '<b>Points: </b>' + points;
+        document.getElementById('points').innerHTML += '<span class="right-align"><i class="material-icons yellow-text text-darken-1">star</i> Your Points: ' + points + '</span>';
+
+        // set cards to hidden and have them incrementally fade in
+        cards = document.getElementsByClassName('fadeIn');
+        fadeInCount = 0;
+        for (var i = 0; i < cards.length; i++) {
+            cards[i].className += ' hide';
+            setTimeout(fadeIn, 150*i);
+        }
     });
+}
+
+var cards;
+var fadeInCount;
+function fadeIn() {
+    // remove hide class
+    cards[fadeInCount].className = cards[fadeInCount].className.slice(0, cards[fadeInCount].className.length - 5)
+    fadeInCount++;
 }
 
 var json = {
     "pageLoads1": {
-        "title": "pageLoads1",
-        "description": "pageLoads1",
+        "title": "Beginner Browser",
+        "description": "Achieve 10 page loads",
         "image": "assets/images/1.jpg",
         "points": 10
     },
     "pageLoads2": {
-        "title": "pageLoads1",
-        "description": "pageLoads2",
+        "title": "Newbie",
+        "description": "Achieve 100 page loads",
         "image": "assets/images/2.jpg",
-        "points": 25
+        "points": 15
     },
     "pageLoads3": {
-        "title": "pageLoads1",
-        "description": "pageLoads3",
+        "title": "Up-and-Comer",
+        "description": "Achieve 1000 page loads",
         "image": "assets/images/3.jpg",
-        "points": 50
+        "points": 20
+    },
+    "pageLoads4": {
+        "title": "Internet Addict",
+        "description": "Achieve 10000 page loads",
+        "image": "assets/images/3.jpg",
+        "points": 25
     },
     "wiki1": {
-        "title": "pageLoads1",
-        "description": "wiki1",
+        "title": "Thirst for Knowledge",
+        "description": "Read 10 Wikipedia articles",
         "image": "assets/images/4.jpg",
         "points": 10
     },
     "wiki2": {
-        "title": "pageLoads1",
-        "description": "wiki2",
+        "title": "Casual Researcher",
+        "description": "Read 100 Wikipedia articles",
         "image": "assets/images/4.jpg",
         "points": 25
     },
     "wiki3": {
-        "title": "pageLoads1",
-        "description": "wiki3",
+        "title": "Scholar",
+        "description": "Read 1000 Wikipedia articles",
         "image": "assets/images/4.jpg",
         "points": 10
     },
     "redditAccount": {
-        "title": "pageLoads1",
-        "description": "redditAccount",
+        "title": "Redditor",
+        "description": "Create a reddit account",
         "image": "assets/images/4.jpg",
         "points": 10
     },
     "rickRoll": {
-        "title": "pageLoads1",
-        "description": "rickRoll",
+        "title": "Rick Rolled",
+        "description": "Got bamboozled by someone",
         "image": "assets/images/4.jpg",
         "points": 10
     }

@@ -143,17 +143,26 @@ function pageLoads() {
     chrome.storage.sync.get('numPageLoads', function(result) {
         numPageLoads = result['numPageLoads'];
         console.log('pageLoads(): numPageLoads: %s', numPageLoads);
-        // pagesLoads3
+        // pagesLoads4
         if (numPageLoads > 10000) {
             // set achievement to true if hasn't been achieved already
-            chrome.storage.sync.get('pageLoad3', function(result) {
+            chrome.storage.sync.get('pageLoad4', function(result) {
+                if (result['pageLoads4']) {
+                    chrome.storage.sync.set({'pageLoads4': true});
+                }
+            });
+        }
+        // pageLoads3
+        else if (numPageLoads > 1000) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('pageLoads3', function(result) {
                 if (result['pageLoads3']) {
                     chrome.storage.sync.set({'pageLoads3': true});
                 }
             });
         }
         // pageLoads2
-        else if (numPageLoads > 1000) {
+        else if (numPageLoads > 100) {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoads2', function(result) {
                 if (result['pageLoads2']) {
@@ -162,7 +171,7 @@ function pageLoads() {
             });
         }
         // pageLoads1
-        else if (numPageLoads > 1) {
+        else if (numPageLoads > 10) {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoads1', function(result) {
                 if (!result['pageLoads1']) {
@@ -198,7 +207,7 @@ function wiki() {
             });
         }
         // wiki1
-        else if (numWikiReads > 1) {
+        else if (numWikiReads > 10) {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('wiki1', function(result) {
                 if (!result['wiki1']) {
