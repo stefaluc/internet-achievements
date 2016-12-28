@@ -49,25 +49,25 @@ chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         console.log('background.js received message');
         console.log(request);
-        //--------Incremental Achievements--------/
-        updateKey('numPageLoads');
+        incrementKey('numPageLoads');
         if (request.location.includes('wikipedia.org')) {
-            updateKey('numWikiReads');
+            incrementKey('numWikiReads');
         }
-        //--------Boolean Achievements--------/
         else if (request.location == 'www.reddit.com') {
             checkAchievement('redditAccount', request.html);
+        }
+        else if (request.url == 'https://www.youtube.com/watch?v=dQw4w9WgXcQ') {
+            checkAchievement('rickRoll');
         }
     }
 );
 
-// updates storage key
-function updateKey(key, newVal) {
+// increments/initializes key val
+function incrementKey(key, newVal) {
     var value;
     var json = {};
     // get current val
     chrome.storage.sync.get(key, function(result) {
-        console.log(result);
         console.log('result: ' + result[key]);
         json[key] = result[key];
         // if value is not undefined update, else init 
@@ -94,7 +94,8 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
     for (key in changes) {
         var change = changes[key];
         // boolean key, don't need to check
-        if (typeof(change.newValue == 'boolean')) {
+        if (typeof(change.newValue) == 'boolean') {
+            console.log('reached boolean check');
             newAchievements.push(key);
             continue;
         }
@@ -119,15 +120,17 @@ function checkAchievement(achievement, data) {
     switch (achievement) {
         //--------Incremental Achievements--------//
         case 'numPageLoads':
-            return pageLoads();
+            pageLoads();
             break;
         case 'numWikiReads':
-            return wiki();
+            wiki();
             break;
         //--------Boolean Achievements--------//
         case 'redditAccount':
-            return redditAccount(data);
+            redditAccount(data);
             break;
+        case 'rickRoll':
+            rickRoll();
         default:
             return '';
     }
@@ -139,7 +142,7 @@ function pageLoads() {
     var numPageLoads;
     chrome.storage.sync.get('numPageLoads', function(result) {
         numPageLoads = result['numPageLoads'];
-        console.log('[pageLoads()] numPageLoads: %s', numPageLoads);
+        console.log('pageLoads(): numPageLoads: %s', numPageLoads);
         // pagesLoads3
         if (numPageLoads > 10000) {
             // set achievement to true if hasn't been achieved already
@@ -174,8 +177,8 @@ function pageLoads() {
 function wiki() {
     var numWikiReads;
     chrome.storage.sync.get('numWikiReads', function(result) {
-        numPageLoads = result['numWikiReads'];
-        console.log('[wiki()] numWikiReads: %s', numWikiReads);
+        numWikiReads = result['numWikiReads'];
+        console.log('wiki(): numWikiReads: %s', numWikiReads);
         // wiki3
         if (numWikiReads > 1000) {
             // set achievement to true if hasn't been achieved already
@@ -208,9 +211,13 @@ function wiki() {
 
 // parse reddit page to see if user has account
 function redditAccount(data) {
-    console.log('reached redditAccount()');
     // message "Want to join?" won't be present on reddit page if user isn't logged in
     if(!data.includes('Want to join?')) {
         chrome.storage.sync.set({'redditAccount': true});
     }
+}
+
+// user has been rick rolled
+function rickRoll() {
+    chrome.storage.sync.set({'rickRoll': true});
 }

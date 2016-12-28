@@ -12,7 +12,8 @@
             "tabs",
             "http://*/*", 
             "https://*/*",
-            "storage"
+            "storage",
+            "notifications"
         ],
         "background": {
             "scripts": ["background.js", "assets/js/jquery-3.1.1.min.js"],

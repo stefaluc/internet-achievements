@@ -1,4 +1,5 @@
-window.onload = function() {
+var interval = setInterval(sniff, 1000);
+function sniff() {
     var tab_url = window.location.href;
     var tab_location = window.location.host;
     var tab_html = document.body.innerHTML;
@@ -7,4 +8,5 @@ window.onload = function() {
     chrome.runtime.sendMessage(message, function() {
         console.log("sent data from content_script.js");
     });
+    clearInterval(interval);
 }
