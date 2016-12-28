@@ -1,3 +1,8 @@
+// initialize extension
+chrome.runtime.onInstalled.addListener(function() {
+    
+});
+
 //--------Handle popup.html opening--------//
 // create popup tab, if already created, switch focus to it
 function openPopup() {
@@ -33,19 +38,26 @@ chrome.extension.onConnect.addListener(function(port) {
     });
 });
 
-//--------Handle messaging and storage updates--------//
 // called when the user clicks on the browser action icon
 chrome.browserAction.onClicked.addListener(function(tab) {
-    chrome.storage.local.clear();
     openPopup();
 });
 
+//--------Handle messaging and storage updates--------//
 // receive info from content_script.js
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         console.log('background.js received message');
         console.log(request);
+        //--------Incremental Achievements--------/
         updateKey('numPageLoads');
+        if (request.location.includes('wikipedia.org')) {
+            updateKey('numWikiReads');
+        }
+        //--------Boolean Achievements--------/
+        else if (request.location == 'www.reddit.com') {
+            checkAchievement('redditAccount', request.html);
+        }
     }
 );
 
@@ -81,15 +93,15 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
     var newAchievements = [];
     for (key in changes) {
         var change = changes[key];
-        console.log("Storage key %s changed. Old val: %s, new val: %s", key, change.oldValue, change.newValue);
-        console.log('onChanged change: ' + change);
-        console.log('key: ' + key);
-        // new achievement, or empty string if nothing updated
-        var achievement = checkAchievement(key);
-        console.log(achievement);
-        if (achievement) {
-            newAchievements.push(achievement);
+        // boolean key, don't need to check
+        if (typeof(change.newValue == 'boolean')) {
+            newAchievements.push(key);
+            continue;
         }
+        console.log("Storage key %s changed. Old val: %s, new val: %s", key, change.oldValue, change.newValue);
+        console.log('key: ' + key);
+        // check incremental achievement progress
+        checkAchievement(key);
     }
     // send message to popup to update
     if (newAchievements.length) {
@@ -100,53 +112,105 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
     }
 });
 
-// check if an achievement is gained
-function checkAchievement(achievement) {
+// check if an achievement is gained (data param is optional)
+// incremental achievements are continually checked until a certain action number is reached
+// boolean achievements are achieved on one specific action
+function checkAchievement(achievement, data) {
     switch (achievement) {
+        //--------Incremental Achievements--------//
         case 'numPageLoads':
             return pageLoads();
-        case 'numWikis':
+            break;
+        case 'numWikiReads':
             return wiki();
+            break;
+        //--------Boolean Achievements--------//
+        case 'redditAccount':
+            return redditAccount(data);
+            break;
+        default:
+            return '';
     }
-    console.log("Should not have reached (checkAcievement: %s)", achievement);
 }
 
 //--------Achievement checking functions--------//
+// check total number of page loads
 function pageLoads() {
     var numPageLoads;
     chrome.storage.sync.get('numPageLoads', function(result) {
         numPageLoads = result['numPageLoads'];
         console.log('[pageLoads()] numPageLoads: %s', numPageLoads);
+        // pagesLoads3
         if (numPageLoads > 10000) {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoad3', function(result) {
-                if (result['pageLoads3']) { return ''; } // already have achievement
-                chrome.storage.sync.set({'pageLoads3': true});
-                return 'pageLoads3';
+                if (result['pageLoads3']) {
+                    chrome.storage.sync.set({'pageLoads3': true});
+                }
             });
         }
+        // pageLoads2
         else if (numPageLoads > 1000) {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoads2', function(result) {
-                if (result['pageLoads2']) { return ''; } // already have achievement
-                chrome.storage.sync.set({'pageLoads2': true});
-                return 'pageLoads2';
+                if (result['pageLoads2']) {
+                    chrome.storage.sync.set({'pageLoads2': true});
+                }
             });
         }
+        // pageLoads1
         else if (numPageLoads > 1) {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoads1', function(result) {
-                console.log('reached1');
-                console.log('result: %s', result);
-                if (result['pageLoads1']) { return ''; } // already have achievement
-                chrome.storage.sync.set({'pageLoads1': true});
-                console.log('reached2');
-                return 'pageLoads1';
+                if (!result['pageLoads1']) {
+                    chrome.storage.sync.set({'pageLoads1': true});
+                }
             });
         }
     });
 }
 
+// check number of wikipedia pages read
 function wiki() {
-    return '';
+    var numWikiReads;
+    chrome.storage.sync.get('numWikiReads', function(result) {
+        numPageLoads = result['numWikiReads'];
+        console.log('[wiki()] numWikiReads: %s', numWikiReads);
+        // wiki3
+        if (numWikiReads > 1000) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('wiki3', function(result) {
+                if (!result['wiki3']) {
+                    chrome.storage.sync.set({'wiki3': true});
+                }
+            });
+        }
+        // wiki2
+        else if (numWikiReads > 100) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('wiki2', function(result) {
+                if (!result['wiki2']) {
+                    chrome.storage.sync.set({'wiki2': true});
+                }
+            });
+        }
+        // wiki1
+        else if (numWikiReads > 1) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('wiki1', function(result) {
+                if (!result['wiki1']) {
+                    chrome.storage.sync.set({'wiki1': true});
+                }
+            });
+        }
+    });
+}
+
+// parse reddit page to see if user has account
+function redditAccount(data) {
+    console.log('reached redditAccount()');
+    // message "Want to join?" won't be present on reddit page if user isn't logged in
+    if(!data.includes('Want to join?')) {
+        chrome.storage.sync.set({'redditAccount': true});
+    }
 }

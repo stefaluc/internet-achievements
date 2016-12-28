@@ -15,9 +15,6 @@ chrome.runtime.onMessage.addListener(
 function init() {
     document.body.innerHTML = '';
 
-    // load achievements json file
-    //var json = JSON.parse(achievements);
-    console.log(json);
     var keys = Object.keys(json);
     console.log(keys);
     var achieved = false;
@@ -25,9 +22,9 @@ function init() {
     // get gained achievements
     chrome.storage.sync.get(keys, function(result) {
         console.log(result);
-        document.body.innerHTML += '<div id="points"></div><br/>'
-        document.body.innerHTML += '<div class="row"></div>'
-        document.body.innerHTML += '<div class="row"></div>'
+        document.body.innerHTML += '<div id="points"></div><br/>';
+        document.body.innerHTML += '<div class="row"></div>';
+        document.body.innerHTML += '<div class="row"></div>';
         // display all achievements
         for(var i = 0; i < keys.length; i++) {
             if(result[keys[i]]) { // achieved
@@ -51,16 +48,31 @@ var json = {
     "pageLoads2": {
         "image": "assets/images/2.jpg",
         "description": "pageLoads2",
-        "points": 20
+        "points": 25
     },
     "pageLoads3": {
         "image": "assets/images/3.jpg",
         "description": "pageLoads3",
         "points": 50
     },
-    "wiki": {
+    "wiki1": {
         "image": "assets/images/4.jpg",
-        "description": "wiki",
+        "description": "wiki1",
+        "points": 10
+    },
+    "wiki2": {
+        "image": "assets/images/4.jpg",
+        "description": "wiki2",
+        "points": 25
+    },
+    "wiki3": {
+        "image": "assets/images/4.jpg",
+        "description": "wiki3",
+        "points": 10
+    },
+    "redditAccount": {
+        "image": "assets/images/4.jpg",
+        "description": "redditAccount",
         "points": 10
     }
 }
