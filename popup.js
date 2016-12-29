@@ -1,4 +1,4 @@
-var container = document.getElementsByClassName('container')[1];
+var cardContainer = document.getElementsByClassName('container')[1];
 
 window.onload = function() {
     init();
@@ -26,7 +26,8 @@ chrome.runtime.onMessage.addListener(
 );
 
 function init() {
-    container.innerHTML = '';
+    cardContainer.innerHTML = '';
+    document.getElementById('points').innerHTML = '';
 
     var keys = Object.keys(json);
     console.log(keys);
@@ -34,8 +35,8 @@ function init() {
     // get gained achievements
     chrome.storage.sync.get(keys, function(result) {
         console.log(result);
-        container.innerHTML += '<div id="achieved" class="row"></div>';
-        container.innerHTML += '<div id="unachieved" class="row"></div>';
+        cardContainer.innerHTML += '<div id="achieved" class="row"></div>';
+        cardContainer.innerHTML += '<div id="unachieved" class="row"></div>';
         // display all achievements
         for(var i = 0; i < keys.length; i++) {
             if(result[keys[i]]) { // achieved
@@ -86,13 +87,25 @@ var json = {
         "points": 20
     },
     "pageLoads4": {
-        "title": "Internet Addict",
+        "title": "Web Surfer",
         "description": "Achieve 10000 page loads",
         "image": "assets/images/3.jpg",
         "points": 25
     },
+    "pageLoads5": {
+        "title": "Internet Addict",
+        "description": "Achieve 50000 page loads",
+        "image": "assets/images/3.jpg",
+        "points": 50
+    },
+    "pageLoads6": {
+        "title": "Centarian",
+        "description": "Achieve 100000 page loads",
+        "image": "assets/images/3.jpg",
+        "points": 75
+    },
     "wiki1": {
-        "title": "Thirst for Knowledge",
+        "title": "Knowledge is Power",
         "description": "Read 10 Wikipedia articles",
         "image": "assets/images/4.jpg",
         "points": 10
@@ -104,10 +117,16 @@ var json = {
         "points": 25
     },
     "wiki3": {
-        "title": "Scholar",
+        "title": "Analyst",
         "description": "Read 1000 Wikipedia articles",
         "image": "assets/images/4.jpg",
-        "points": 10
+        "points": 50
+    },
+    "wiki4": {
+        "title": "Scholar",
+        "description": "Read 10000 Wikipedia articles",
+        "image": "assets/images/4.jpg",
+        "points": 75
     },
     "redditAccount": {
         "title": "Redditor",
@@ -120,5 +139,17 @@ var json = {
         "description": "Got bamboozled by someone",
         "image": "assets/images/4.jpg",
         "points": 10
+    },
+    "catVideos": {
+        "title": "Crazy Cat Person",
+        "description": "Watched cat videos online",
+        "image": "assets/images/4.jpg",
+        "points": 10
+    },
+    "smile": {
+        "title": "Smile More",
+        "description": "Spread some happiness around the Internet",
+        "image": "assets/images/4.jpg",
+        "points": 15
     }
 }

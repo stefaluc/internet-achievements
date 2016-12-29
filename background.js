@@ -25,18 +25,18 @@ function openPopup() {
     });
 }
 
-chrome.extension.onConnect.addListener(function(port) {
-    var tab = port.sender.tab;
-    // this will get called by the content script we execute in
-    // the tab as a result of the user pressing the browser action.
-    port.onMessage.addListener(function(info) {
-        var max_length = 1024;
-        if (info.selection.length > max_length) {
-            info.selection = info.selection.substring(0, max_length);
-            openPopup();
-        }
-    });
-});
+//chrome.extension.onConnect.addListener(function(port) {
+//    var tab = port.sender.tab;
+//    // this will get called by the content script we execute in
+//    // the tab as a result of the user pressing the browser action.
+//    port.onMessage.addListener(function(info) {
+//        var max_length = 1024;
+//        if (info.selection.length > max_length) {
+//            info.selection = info.selection.substring(0, max_length);
+//            openPopup();
+//        }
+//    });
+//});
 
 // called when the user clicks on the browser action icon
 chrome.browserAction.onClicked.addListener(function(tab) {
@@ -49,6 +49,10 @@ chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         console.log('background.js received message');
         console.log(request);
+        if (request.smile) {
+            checkAchievement('smile');
+            return;
+        }
         incrementKey('numPageLoads');
         if (request.location.includes('wikipedia.org')) {
             incrementKey('numWikiReads');
@@ -58,6 +62,9 @@ chrome.runtime.onMessage.addListener(
         }
         else if (request.url == 'https://www.youtube.com/watch?v=dQw4w9WgXcQ') {
             checkAchievement('rickRoll');
+        }
+        else if (request.location == 'www.youtube.com' && request.url.includes('cat')) {
+            checkAchievement('catVideos');
         }
     }
 );
@@ -131,6 +138,13 @@ function checkAchievement(achievement, data) {
             break;
         case 'rickRoll':
             rickRoll();
+            break;
+        case 'catVideos':
+            catVideos();
+            break;
+        case 'smile':
+            smile();
+            break;
         default:
             return '';
     }
@@ -143,6 +157,24 @@ function pageLoads() {
     chrome.storage.sync.get('numPageLoads', function(result) {
         numPageLoads = result['numPageLoads'];
         console.log('pageLoads(): numPageLoads: %s', numPageLoads);
+        // pagesLoads6
+        if (numPageLoads > 100000) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('pageLoad6', function(result) {
+                if (result['pageLoads6']) {
+                    chrome.storage.sync.set({'pageLoads6': true});
+                }
+            });
+        }
+        // pagesLoads5
+        if (numPageLoads > 50000) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('pageLoad5', function(result) {
+                if (result['pageLoads5']) {
+                    chrome.storage.sync.set({'pageLoads5': true});
+                }
+            });
+        }
         // pagesLoads4
         if (numPageLoads > 10000) {
             // set achievement to true if hasn't been achieved already
@@ -188,6 +220,15 @@ function wiki() {
     chrome.storage.sync.get('numWikiReads', function(result) {
         numWikiReads = result['numWikiReads'];
         console.log('wiki(): numWikiReads: %s', numWikiReads);
+        // wiki4
+        if (numWikiReads > 10000) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('wiki4', function(result) {
+                if (!result['wiki4']) {
+                    chrome.storage.sync.set({'wiki4': true});
+                }
+            });
+        }
         // wiki3
         if (numWikiReads > 1000) {
             // set achievement to true if hasn't been achieved already
@@ -229,4 +270,14 @@ function redditAccount(data) {
 // user has been rick rolled
 function rickRoll() {
     chrome.storage.sync.set({'rickRoll': true});
+}
+
+// user is watching cat videos
+function catVideos() {
+    chrome.storage.sync.set({'catVideos': true});
+}
+
+// user type a smile
+function smile() {
+    chrome.storage.sync.set({'smile': true});
 }

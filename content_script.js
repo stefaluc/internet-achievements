@@ -10,3 +10,20 @@ function sniff() {
     });
     clearInterval(interval);
 }
+
+// detect user typing smile
+var smileProgress = false;
+document.onkeydown = function(e) {
+    if (e.key == 'Shift') return;
+    if (smileProgress) {
+        if (e.key == ')') {
+            chrome.runtime.sendMessage({"smile": true}, function() {
+                console.log('smile typed, sending message to background.js');
+            });
+        } else {
+            smileProgress = false;
+        }
+    } else if (e.key == ':') {
+        smileProgress = true;
+    }
+}
