@@ -1,6 +1,11 @@
 // initialize extension
 chrome.runtime.onInstalled.addListener(function() {
-    
+    chrome.storage.sync.set({
+        'begin': {
+            "achieved": true,
+            "date": new Date().toLocaleString()
+        }
+    });
 });
 
 //--------Handle popup.html opening--------//
@@ -62,6 +67,9 @@ chrome.runtime.onMessage.addListener(
         }
         else if (request.url == 'https://www.youtube.com/watch?v=dQw4w9WgXcQ') {
             checkAchievement('rickRoll');
+        }
+        else if (request.url == 'http://boards.4chan.org/b/') {
+            checkAchievement('4chan');
         }
         else if (request.location == 'www.youtube.com' && request.url.includes('cat')) {
             checkAchievement('catVideos');
@@ -145,6 +153,9 @@ function checkAchievement(achievement, data) {
         case 'smile':
             smile();
             break;
+        case '4chan':
+            fourChan();
+            break;
         default:
             return '';
     }
@@ -162,7 +173,12 @@ function pageLoads() {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoad6', function(result) {
                 if (result['pageLoads6']) {
-                    chrome.storage.sync.set({'pageLoads6': true});
+                    chrome.storage.sync.set({
+                        'pageLoads6': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
                 }
             });
         }
@@ -171,7 +187,12 @@ function pageLoads() {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoad5', function(result) {
                 if (result['pageLoads5']) {
-                    chrome.storage.sync.set({'pageLoads5': true});
+                    chrome.storage.sync.set({
+                        'pageLoads5': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
                 }
             });
         }
@@ -180,7 +201,12 @@ function pageLoads() {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoad4', function(result) {
                 if (result['pageLoads4']) {
-                    chrome.storage.sync.set({'pageLoads4': true});
+                    chrome.storage.sync.set({
+                        'pageLoads4': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
                 }
             });
         }
@@ -189,7 +215,12 @@ function pageLoads() {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoads3', function(result) {
                 if (result['pageLoads3']) {
-                    chrome.storage.sync.set({'pageLoads3': true});
+                    chrome.storage.sync.set({
+                        'pageLoads3': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
                 }
             });
         }
@@ -198,7 +229,12 @@ function pageLoads() {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoads2', function(result) {
                 if (result['pageLoads2']) {
-                    chrome.storage.sync.set({'pageLoads2': true});
+                    chrome.storage.sync.set({
+                        'pageLoads2': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
                 }
             });
         }
@@ -207,7 +243,12 @@ function pageLoads() {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('pageLoads1', function(result) {
                 if (!result['pageLoads1']) {
-                    chrome.storage.sync.set({'pageLoads1': true});
+                    chrome.storage.sync.set({
+                        'pageLoads1': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
                 }
             });
         }
@@ -225,7 +266,12 @@ function wiki() {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('wiki4', function(result) {
                 if (!result['wiki4']) {
-                    chrome.storage.sync.set({'wiki4': true});
+                    chrome.storage.sync.set({
+                        'wiki4': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
                 }
             });
         }
@@ -234,7 +280,12 @@ function wiki() {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('wiki3', function(result) {
                 if (!result['wiki3']) {
-                    chrome.storage.sync.set({'wiki3': true});
+                    chrome.storage.sync.set({
+                        'wiki3': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
                 }
             });
         }
@@ -243,7 +294,12 @@ function wiki() {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('wiki2', function(result) {
                 if (!result['wiki2']) {
-                    chrome.storage.sync.set({'wiki2': true});
+                    chrome.storage.sync.set({
+                        'wiki2': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
                 }
             });
         }
@@ -252,7 +308,12 @@ function wiki() {
             // set achievement to true if hasn't been achieved already
             chrome.storage.sync.get('wiki1', function(result) {
                 if (!result['wiki1']) {
-                    chrome.storage.sync.set({'wiki1': true});
+                    chrome.storage.sync.set({
+                        'wiki1': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
                 }
             });
         }
@@ -263,21 +324,51 @@ function wiki() {
 function redditAccount(data) {
     // message "Want to join?" won't be present on reddit page if user isn't logged in
     if(!data.includes('Want to join?')) {
-        chrome.storage.sync.set({'redditAccount': true});
+        chrome.storage.sync.set({
+            'redditAccount': {
+                "achieved": true,
+                "date": new Date().toLocaleString()
+            }
+        });
     }
 }
 
 // user has been rick rolled
 function rickRoll() {
-    chrome.storage.sync.set({'rickRoll': true});
+    chrome.storage.sync.set({
+        'rickRoll': {
+            "achieved": true,
+            "date": new Date().toLocaleString()
+        }
+    });
 }
 
 // user is watching cat videos
 function catVideos() {
-    chrome.storage.sync.set({'catVideos': true});
+    chrome.storage.sync.set({
+        'smile': {
+            "achieved": true,
+            "date": new Date().toLocaleString()
+        }
+    });
 }
 
 // user type a smile
 function smile() {
-    chrome.storage.sync.set({'smile': true});
+    chrome.storage.sync.set({
+        'smile': {
+            "achieved": true,
+            "date": new Date().toLocaleString()
+        }
+    });
+}
+
+// user visited 4chan /b/
+function fourChan() {
+    chrome.storage.sync.set({
+        'fourChan': {
+            "achieved": true,
+            "date": new Date().toLocaleString()
+        }
+    });
 }

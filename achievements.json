@@ -1,18 +1,98 @@
 {
-    "pageLoads1": {
+    "begin": {
+        "title": "The Adventure Begins",
+        "description": "Start your achievement hunting adventure by downloading the Internet Achievements extension",
         "image": "assets/images/1.jpg",
-        "description": "pageLoads1"
+        "points": 5
+    },
+    "pageLoads1": {
+        "title": "Beginner Browser",
+        "description": "Achieve 10 page loads",
+        "image": "assets/images/1.jpg",
+        "points": 10
     },
     "pageLoads2": {
+        "title": "Newbie",
+        "description": "Achieve 100 page loads",
         "image": "assets/images/2.jpg",
-        "description": "pageLoads2"
+        "points": 15
     },
     "pageLoads3": {
+        "title": "Up-and-Comer",
+        "description": "Achieve 1000 page loads",
         "image": "assets/images/3.jpg",
-        "description": "pageLoads3"
+        "points": 20
     },
-    "wiki": {
+    "pageLoads4": {
+        "title": "Web Surfer",
+        "description": "Achieve 10000 page loads",
+        "image": "assets/images/3.jpg",
+        "points": 25
+    },
+    "pageLoads5": {
+        "title": "Internet Addict",
+        "description": "Achieve 50000 page loads",
+        "image": "assets/images/3.jpg",
+        "points": 50
+    },
+    "pageLoads6": {
+        "title": "Centarian",
+        "description": "Achieve 100000 page loads",
+        "image": "assets/images/3.jpg",
+        "points": 75
+    },
+    "wiki1": {
+        "title": "Knowledge is Power",
+        "description": "Read 10 Wikipedia articles",
         "image": "assets/images/4.jpg",
-        "description": "wiki"
+        "points": 10
+    },
+    "wiki2": {
+        "title": "Casual Researcher",
+        "description": "Read 100 Wikipedia articles",
+        "image": "assets/images/4.jpg",
+        "points": 25
+    },
+    "wiki3": {
+        "title": "Analyst",
+        "description": "Read 1000 Wikipedia articles",
+        "image": "assets/images/4.jpg",
+        "points": 50
+    },
+    "wiki4": {
+        "title": "Scholar",
+        "description": "Read 10000 Wikipedia articles",
+        "image": "assets/images/4.jpg",
+        "points": 75
+    },
+    "redditAccount": {
+        "title": "Redditor",
+        "description": "Create a reddit account",
+        "image": "assets/images/4.jpg",
+        "points": 10
+    },
+    "rickRoll": {
+        "title": "Rick Rolled",
+        "description": "Get bamboozled by someone",
+        "image": "assets/images/4.jpg",
+        "points": 10
+    },
+    "catVideos": {
+        "title": "Crazy Cat Person",
+        "description": "Watch cat videos online",
+        "image": "assets/images/4.jpg",
+        "points": 10
+    },
+    "smile": {
+        "title": "Smile More",
+        "description": "Spread some happiness around the Internet",
+        "image": "assets/images/4.jpg",
+        "points": 15
+    },
+    "4chan": {
+        "title": "Shitposter",
+        "description": "Visit a very... unique community on the Internet",
+        "image": "assets/images/4.jpg",
+        "points": 10
     }
 }
