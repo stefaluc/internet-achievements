@@ -8,20 +8,30 @@ chrome.runtime.onInstalled.addListener(function() {
     });
 });
 
-//--------Handle popup.html opening--------//
+// checks number of tabs every time a new tab is added
+chrome.tabs.onCreated.addListener(function() {
+    chrome.tabs.query({}, function(tabs) {
+        if (tabs.length > 20) {
+            checkAchievement('tabs');
+        }
+    });
+});
+
+//----------------Handle popup.html opening----------------//
+// called when the user clicks on the browser action icon
+chrome.browserAction.onClicked.addListener(function(tab) {
+    openPopup();
+});
+
 // create popup tab, if already created, switch focus to it
 function openPopup() {
     var popupUrl = chrome.extension.getURL('popup.html');
-    console.log('reached');
     chrome.tabs.query({}, function(extensionTabs) {
         var found = false;
         for (var i=0; i < extensionTabs.length; i++) {
-            console.log('popup url:' + popupUrl);
-            console.log('tab url:' + extensionTabs[i].url);
             if (popupUrl == extensionTabs[i].url) {
                 found = true;
-                console.log("tab id: " + extensionsTabs[i].id);
-                chrome.tabs.update(extensionTabs[i].id, {"selected":true});
+                chrome.tabs.update(extensionTabs[i].id, {"active": true});
             }
         }
         if (!found) {
@@ -30,25 +40,7 @@ function openPopup() {
     });
 }
 
-//chrome.extension.onConnect.addListener(function(port) {
-//    var tab = port.sender.tab;
-//    // this will get called by the content script we execute in
-//    // the tab as a result of the user pressing the browser action.
-//    port.onMessage.addListener(function(info) {
-//        var max_length = 1024;
-//        if (info.selection.length > max_length) {
-//            info.selection = info.selection.substring(0, max_length);
-//            openPopup();
-//        }
-//    });
-//});
-
-// called when the user clicks on the browser action icon
-chrome.browserAction.onClicked.addListener(function(tab) {
-    openPopup();
-});
-
-//--------Handle messaging and storage updates--------//
+//----------------Handle messaging and storage updates--------//
 // receive info from content_script.js
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
@@ -61,6 +53,9 @@ chrome.runtime.onMessage.addListener(
         incrementKey('numPageLoads');
         if (request.location.includes('wikipedia.org')) {
             incrementKey('numWikiReads');
+        }
+        else if (request.url.includes('youtube.com/watch')) {
+            incrementKey('numYoutubeVids');
         }
         else if (request.location == 'www.reddit.com') {
             checkAchievement('redditAccount', request.html);
@@ -114,7 +109,8 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
             newAchievements.push(key);
             continue;
         }
-        console.log("Storage key %s changed. Old val: %s, new val: %s", key, change.oldValue, change.newValue);
+        console.log("Storage key %s changed. Old val: %s, new val: %s",
+            key, change.oldValue, change.newValue);
         console.log('key: ' + key);
         // check incremental achievement progress
         checkAchievement(key);
@@ -128,6 +124,7 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
     }
 });
 
+//----------------Achievement checking functions----------------//
 // check if an achievement is gained (data param is optional)
 // incremental achievements are continually checked until a certain action number is reached
 // boolean achievements are achieved on one specific action
@@ -139,6 +136,9 @@ function checkAchievement(achievement, data) {
             break;
         case 'numWikiReads':
             wiki();
+            break;
+        case 'numYoutubeVids':
+            youtube();
             break;
         //--------Boolean Achievements--------//
         case 'redditAccount':
@@ -156,12 +156,15 @@ function checkAchievement(achievement, data) {
         case '4chan':
             fourChan();
             break;
+        case 'tabs':
+            tabs();
+            break;
         default:
             return '';
     }
 }
 
-//--------Achievement checking functions--------//
+//----------------Incremental Achievements----------------//
 // check total number of page loads
 function pageLoads() {
     var numPageLoads;
@@ -320,6 +323,72 @@ function wiki() {
     });
 }
 
+// check number of youtube videos watched
+function youtube() {
+    var numYoutubeVids;
+    chrome.storage.sync.get('numYoutubeVids', function(result) {
+        numYoutubeVids = result['numYoutubeVids'];
+        console.log('youtube(): numYoutubeVids: %s', numWikiReads);
+        // youtube4
+        if (numYoutubeVids > 10000) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('youtube4', function(result) {
+                if (!result['youtube4']) {
+                    chrome.storage.sync.set({
+                        'youtube4': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
+                }
+            });
+        }
+        // youtube3
+        if (numYoutubeVids > 1000) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('youtube3', function(result) {
+                if (!result['youtube3']) {
+                    chrome.storage.sync.set({
+                        'youtube3': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
+                }
+            });
+        }
+        // youtube2
+        else if (numYoutubeVids > 100) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('youtube2', function(result) {
+                if (!result['youtube2']) {
+                    chrome.storage.sync.set({
+                        'youtube2': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
+                }
+            });
+        }
+        // youtube1
+        else if (numYoutubeVids > 10) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('youtube1', function(result) {
+                if (!result['youtube1']) {
+                    chrome.storage.sync.set({
+                        'youtube1': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+//----------------Boolean Achievements----------------//
 // parse reddit page to see if user has account
 function redditAccount(data) {
     // message "Want to join?" won't be present on reddit page if user isn't logged in
@@ -367,6 +436,16 @@ function smile() {
 function fourChan() {
     chrome.storage.sync.set({
         'fourChan': {
+            "achieved": true,
+            "date": new Date().toLocaleString()
+        }
+    });
+}
+
+// user opened up more than 12 tabs at once
+function tabs() {
+    chrome.storage.sync.set({
+        'tabs': {
             "achieved": true,
             "date": new Date().toLocaleString()
         }

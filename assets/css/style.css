@@ -18,6 +18,11 @@
     margin: 10px;
     font-size: 16px;
 }
+
+.card {
+    height: 250px !important;
+}
+
 /* Checkmark */
 /* Checkmark code taken and modified from: https://codepen.io/haniotis/pen/KwvYLO */
 .checkmark__circle {

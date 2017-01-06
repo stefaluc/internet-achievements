@@ -65,6 +65,30 @@
         "image": "assets/images/4.jpg",
         "points": 75
     },
+    "youtube1": {
+        "title": "youtube1",
+        "description": "Watch 10 YouTube videos",
+        "image": "assets/images/4.jpg",
+        "points": 10
+    },
+    "youtube2": {
+        "title": "youtube2",
+        "description": "Watch 100 YouTube videos",
+        "image": "assets/images/4.jpg",
+        "points": 25
+    },
+    "youtube3": {
+        "title": "youtube3",
+        "description": "Watch 1000 YouTube videos",
+        "image": "assets/images/4.jpg",
+        "points": 50
+    },
+    "youtube4": {
+        "title": "youtube4",
+        "description": "Watch 10000 YouTube videos",
+        "image": "assets/images/4.jpg",
+        "points": 75
+    },
     "redditAccount": {
         "title": "Redditor",
         "description": "Create a reddit account",
@@ -94,5 +118,11 @@
         "description": "Visit a very... unique community on the Internet",
         "image": "assets/images/4.jpg",
         "points": 10
+    },
+    "tabs": {
+        "title": "Multitasker",
+        "description": "Writing a paper? Doing research? Working on a project? It happens, but you should probably clean up.",
+        "image": "assets/images/4.jpg",
+        "points": 15
     }
 }
