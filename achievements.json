@@ -3,126 +3,168 @@
         "title": "The Adventure Begins",
         "description": "Start your achievement hunting adventure by downloading the Internet Achievements extension",
         "image": "assets/images/1.jpg",
-        "points": 5
+        "points": 5,
+        "type": "boolean",
+        "group": []
     },
     "pageLoads1": {
         "title": "Beginner Browser",
         "description": "Achieve 10 page loads",
         "image": "assets/images/1.jpg",
-        "points": 10
+        "points": 10,
+        "type": "incremental",
+        "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"]
     },
     "pageLoads2": {
         "title": "Newbie",
         "description": "Achieve 100 page loads",
         "image": "assets/images/2.jpg",
-        "points": 15
+        "points": 15,
+        "type": "incremental",
+        "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"]
     },
     "pageLoads3": {
         "title": "Up-and-Comer",
         "description": "Achieve 1000 page loads",
         "image": "assets/images/3.jpg",
-        "points": 20
+        "points": 20,
+        "type": "incremental",
+        "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"]
     },
     "pageLoads4": {
         "title": "Web Surfer",
         "description": "Achieve 10000 page loads",
         "image": "assets/images/3.jpg",
-        "points": 25
+        "points": 25,
+        "type": "incremental",
+        "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"]
     },
     "pageLoads5": {
         "title": "Internet Addict",
         "description": "Achieve 50000 page loads",
         "image": "assets/images/3.jpg",
-        "points": 50
+        "points": 50,
+        "type": "incremental",
+        "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"]
     },
     "pageLoads6": {
         "title": "Centarian",
         "description": "Achieve 100000 page loads",
         "image": "assets/images/3.jpg",
-        "points": 75
+        "points": 75,
+        "type": "incremental",
+        "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"]
     },
     "wiki1": {
         "title": "Knowledge is Power",
         "description": "Read 10 Wikipedia articles",
         "image": "assets/images/4.jpg",
-        "points": 10
+        "points": 10,
+        "type": "incremental",
+        "group": ["wiki1", "wiki2", "wiki3", "wiki4"]
     },
     "wiki2": {
         "title": "Casual Researcher",
         "description": "Read 100 Wikipedia articles",
         "image": "assets/images/4.jpg",
-        "points": 25
+        "points": 25,
+        "type": "incremental",
+        "group": ["wiki1", "wiki2", "wiki3", "wiki4"]
     },
     "wiki3": {
         "title": "Analyst",
         "description": "Read 1000 Wikipedia articles",
         "image": "assets/images/4.jpg",
-        "points": 50
+        "points": 50,
+        "type": "incremental",
+        "group": ["wiki1", "wiki2", "wiki3", "wiki4"]
     },
     "wiki4": {
         "title": "Scholar",
         "description": "Read 10000 Wikipedia articles",
         "image": "assets/images/4.jpg",
-        "points": 75
+        "points": 75,
+        "type": "incremental",
+        "group": ["wiki1", "wiki2", "wiki3", "wiki4"]
     },
     "youtube1": {
         "title": "youtube1",
         "description": "Watch 10 YouTube videos",
         "image": "assets/images/4.jpg",
-        "points": 10
+        "points": 10,
+        "type": "incremental",
+        "group": ["youtube1", "youtube2", "youtube3", "youtube4"]
     },
     "youtube2": {
         "title": "youtube2",
         "description": "Watch 100 YouTube videos",
         "image": "assets/images/4.jpg",
-        "points": 25
+        "points": 25,
+        "type": "incremental",
+        "group": ["youtube1", "youtube2", "youtube3", "youtube4"]
     },
     "youtube3": {
         "title": "youtube3",
         "description": "Watch 1000 YouTube videos",
         "image": "assets/images/4.jpg",
-        "points": 50
+        "points": 50,
+        "type": "incremental",
+        "group": ["youtube1", "youtube2", "youtube3", "youtube4"]
     },
     "youtube4": {
         "title": "youtube4",
         "description": "Watch 10000 YouTube videos",
         "image": "assets/images/4.jpg",
-        "points": 75
+        "points": 75,
+        "type": "incremental",
+        "group": ["youtube1", "youtube2", "youtube3", "youtube4"]
     },
     "redditAccount": {
         "title": "Redditor",
         "description": "Create a reddit account",
         "image": "assets/images/4.jpg",
-        "points": 10
+        "points": 10,
+        "type": "boolean",
+        "group": []
     },
     "rickRoll": {
         "title": "Rick Rolled",
         "description": "Get bamboozled by someone",
         "image": "assets/images/4.jpg",
-        "points": 10
+        "points": 10,
+        "type": "boolean",
+        "group": []
     },
     "catVideos": {
         "title": "Crazy Cat Person",
         "description": "Watch cat videos online",
         "image": "assets/images/4.jpg",
-        "points": 10
+        "points": 10,
+        "type": "boolean",
+        "group": []
     },
     "smile": {
         "title": "Smile More",
         "description": "Spread some happiness around the Internet",
         "image": "assets/images/4.jpg",
-        "points": 15
+        "points": 15,
+        "type": "boolean",
+        "group": []
     },
     "4chan": {
         "title": "Shitposter",
         "description": "Visit a very... unique community on the Internet",
         "image": "assets/images/4.jpg",
-        "points": 10
+        "points": 10,
+        "type": "boolean",
+        "group": []
     },
     "tabs": {
         "title": "Multitasker",
         "description": "Writing a paper? Doing research? Working on a project? It happens, but you should probably clean up.",
         "image": "assets/images/4.jpg",
-        "points": 15
+        "points": 15,
+        "type": "boolean",
+        "group": []
     }
 }
