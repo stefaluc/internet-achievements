@@ -9,7 +9,7 @@
     },
     "pageLoads1": {
         "title": "Beginner Browser",
-        "description": "Achieve 10 page loads",
+        "description": "Achieve 10 page views",
         "image": "assets/images/1.jpg",
         "points": 10,
         "type": "incremental",
@@ -18,7 +18,7 @@
     },
     "pageLoads2": {
         "title": "Newbie",
-        "description": "Achieve 100 page loads",
+        "description": "Achieve 100 page views",
         "image": "assets/images/2.jpg",
         "points": 15,
         "type": "incremental",
@@ -27,7 +27,7 @@
     },
     "pageLoads3": {
         "title": "Up-and-Comer",
-        "description": "Achieve 1000 page loads",
+        "description": "Achieve 1000 page views",
         "image": "assets/images/3.jpg",
         "points": 20,
         "type": "incremental",
@@ -36,7 +36,7 @@
     },
     "pageLoads4": {
         "title": "Web Surfer",
-        "description": "Achieve 10000 page loads",
+        "description": "Achieve 10000 page views",
         "image": "assets/images/3.jpg",
         "points": 25,
         "type": "incremental",
@@ -45,7 +45,7 @@
     },
     "pageLoads5": {
         "title": "Internet Addict",
-        "description": "Achieve 50000 page loads",
+        "description": "Achieve 50000 page views",
         "image": "assets/images/3.jpg",
         "points": 50,
         "type": "incremental",
@@ -54,7 +54,7 @@
     },
     "pageLoads6": {
         "title": "Centarian",
-        "description": "Achieve 100000 page loads",
+        "description": "Achieve 100000 page views",
         "image": "assets/images/3.jpg",
         "points": 75,
         "type": "incremental",
@@ -210,8 +210,48 @@
         "group": []
     },
     "tabs": {
-        "title": "Multitasker",
-        "description": "Writing a paper? Doing research? Working on a project? It happens, but you should probably clean up.",
+        "title": "Multi-tasker",
+        "description": "Writing a paper? Doing research? Working on a project? It happens, but you should probably clean up",
+        "image": "assets/images/4.jpg",
+        "points": 15,
+        "type": "boolean",
+        "group": []
+    },
+    "urbanDict": {
+        "title": "Double Meaning",
+        "description": "Look up a word on Urban Dictionary",
+        "image": "assets/images/4.jpg",
+        "points": 15,
+        "type": "boolean",
+        "group": []
+    },
+    "earlyBird": {
+        "title": "Early Bird",
+        "description": "Browse the Internet in the early day. Everyone envys a morning person",
+        "image": "assets/images/4.jpg",
+        "points": 20,
+        "type": "boolean",
+        "group": []
+    },
+    "nightOwl": {
+        "title": "Night Owl",
+        "description": "Browse the Internet late into the night. After all, nothing fun happens before sundown",
+        "image": "assets/images/4.jpg",
+        "points": 20,
+        "type": "boolean",
+        "group": []
+    },
+    "archive": {
+        "title": "The Good Ole Days",
+        "description": "Bask in the nostalgia of what your favorite websites used to be like",
+        "image": "assets/images/4.jpg",
+        "points": 15,
+        "type": "boolean",
+        "group": []
+    },
+    "zombocom": {
+        "title": "Zombocom",
+        "description": "You can do anything at ZomboCom. Anything at all. The only limit is yourself. Welcome... to ZomboCom",
         "image": "assets/images/4.jpg",
         "points": 15,
         "type": "boolean",

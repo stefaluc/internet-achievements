@@ -38,6 +38,10 @@
     height: 250px !important;
 }
 
+.carousel {
+    height: 300px !important;
+}
+
 /* Checkmark */
 /* Checkmark code taken and modified from: https://codepen.io/haniotis/pen/KwvYLO */
 .checkmark__circle {

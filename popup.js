@@ -1,9 +1,11 @@
 // reinitialize page when new achievement message is received
 chrome.runtime.onMessage.addListener(
     function(message, sender, sendResponse) {
-        console.log('popup.js receive message. sender: ' + sender);
+        console.log('popup.js receive message. sender: ' + message.sender);
         if (message.sender == "bg") {
             getJSON('achievements.json').then(function(json) {
+                console.log('reached notification start');
+                console.log(json);
                 // display rich notification for new achievement
                 for(var i = 0; i < message.achievements.length; i++) {
                     var key = json[message.achievements[i]];
@@ -80,7 +82,6 @@ var Main = React.createClass({
     },
 
     render: function() {
-        console.log('reached parent render');
         var componentMain = (
             <div>
                 <Header points={this.state.points} />
@@ -92,24 +93,32 @@ var Main = React.createClass({
                 </div>
             </div>
         );
+        // generate CarouselItems if a incremental achievement was clicked
         var carouselComponents = [];
         if (this.state.carouselItems.components.length) {
-            console.log(this.state.carouselItems);
+            // get CarouselItem components
             carouselComponents = this.state.carouselItems.components.map(function(item, index) {
                 return <CarouselItem card={item} key={index} />;
             });
-            // init carousel
+            // hack to make not-so-React-optimized carousel work properly
             setTimeout(function() {
+                // init carousel
                 $('.carousel').carousel({
                     no_wrap: true, 
                     indicators: true,
                     dist: 0,
                     padding: 200
                 });
+                // removes hide class from hidden React components in carousel
+                $('.carousel-item').children().each(function() {
+                    $(this).children().removeClass('hide');
+                });
             }, 50);
         }
+
+        // hack to init modal
         setTimeout(function() { $('.modal').modal(); }, 10);
-        console.log(carouselComponents);
+
         return (
             <div>
                 { componentMain }
@@ -145,7 +154,6 @@ var Header = React.createClass({
 // contains materialize CarouselItems wrapped in materialize carousel and modal
 var Carousel = React.createClass({
     render: function() {
-        console.log(this.props.children);
         return (
             <div id="modal1" className="modal">
                 <div className="modal-content">
@@ -210,6 +218,8 @@ var AchievementsList = React.createClass({
             chrome.storage.sync.get(keys, function(result) {
                 // organize achievements into lists
                 var achieved = [], unachieved = [];
+                console.log(json);
+                console.log(result);
                 for (var i = 0; i < keys.length; i++) {
                     if (result[keys[i]] && result[keys[i]].achieved) { // achieved
                         json[keys[i]].date = result[keys[i]].date; // copy date to json
@@ -225,10 +235,22 @@ var AchievementsList = React.createClass({
                         var key = keys[i];
                         var obj = {};
                         obj[key] = json[key];
+                        
+                        // Makes it so only the next unachieved incremental achievement in series will be
+                        // displayed. This avoids cluttering of long chains of incremental achievements.
+                        // All incrementals for series will still be displayed in modal carousel and all 
+                        // achieved incrementals will also be displayed
+                        if (!isNaN(Number(key.slice(-1))) &&
+                                Number(key.slice(-1)) != 1 &&
+                                    !result[key.slice(0, key.length-1)+(Number(key.slice(-1)) - 1).toString()]) {
+                            obj[key].duplicate = true;
+                        }
+
                         unachieved.push(obj);
                     }
                 }
                 // update state
+                console.log(achieved);
                 this.setAchieved(achieved);
                 this.setUnachieved(unachieved);
                 this.setRender(true);
@@ -246,7 +268,6 @@ var AchievementsList = React.createClass({
     },
 
     render: function() {
-        console.log('reached child render');
         // get achievement components
         var components = {};
         var achievedComps = this.state.achieved.map(function(achievedObj, index) {
@@ -300,10 +321,11 @@ var Achievement = React.createClass({
 
     render: function() {
         var achieved = this.props.achieved; // bool val, if achieved
-
-        // achievement card with varying information based on achieved val
+        
+        // achievement card with varying information based on achieved val, some incremental achievements
+        // may not be displayed (i.e. given the hide class)
         var component = (
-            <div className="col s12 m3">
+            <div className={"col s12 m3 " + (this.props.config.duplicate ? "hide" : "")}>
                 <div className={"animated fadeIn card small hoverable " 
                     + (achieved ? "white" : ("grey lighten-3"))}>
                     <div className="card-content blue-text text-darken-1">
@@ -311,24 +333,29 @@ var Achievement = React.createClass({
                         <p className="grey-text text-darken-3">
                             { this.props.config.description }
                         </p>
-                        { achieved ?
-                         (<p className="grey-text date">{ this.props.config.date }</p>) 
-                         : '' }
+                        {
+                            achieved ?
+                            (<p className="grey-text date">{ this.props.config.date }</p>) 
+                            :
+                            ''
+                        }
                     </div>
                     <div className="card-action">
-                        { achieved ? 
-                         (<svg className="checkmark" 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            viewBox="0 0 52 52">
-                            <circle className="checkmark__circle" 
-                                cx="26" cy="26" r="25" fill="none"/>
-                            <path className="checkmark__check" fill="none"
-                                d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                           </svg>)
-                        :
-                         (<i className="animated rotateIn material-icons ex">
-                            not_interested
-                           </i>)}
+                        {
+                            achieved ? 
+                             (<svg className="checkmark" 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                viewBox="0 0 52 52">
+                                <circle className="checkmark__circle" 
+                                    cx="26" cy="26" r="25" fill="none"/>
+                                <path className="checkmark__check" fill="none"
+                                    d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                              </svg>)
+                            :
+                             (<i className="animated rotateIn material-icons ex">
+                                not_interested
+                              </i>)
+                        }
                         <div className="points-card grey-text">
                             { this.props.config.points } pts
                         </div>
