@@ -3,6 +3,11 @@
     font-size: 40px;
 }
 
+.modal-title {
+    font-weight: 200;
+    font-size: 40px;
+}
+
 .date {
     position: absolute;
     top: 0;

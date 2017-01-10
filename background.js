@@ -6,6 +6,7 @@ chrome.runtime.onInstalled.addListener(function() {
             "date": new Date().toLocaleString()
         }
     });
+    chrome.storage.sync.set({'unique': []});
 });
 
 // checks number of tabs every time a new tab is added
@@ -44,8 +45,6 @@ function openPopup() {
 // receive info from content_script.js
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        console.log('background.js received message');
-        console.log(request);
         if (request.smile) {
             checkAchievement('smile');
             return;
@@ -57,7 +56,12 @@ chrome.runtime.onMessage.addListener(
         else if (request.url.includes('youtube.com/watch')) {
             incrementKey('numYoutubeVids');
         }
-        else if (request.location == 'www.reddit.com') {
+        checkUnique(request.location, function(result) {
+            if (result) {
+                incrementKey('numUnique');
+            }
+        });
+        if (request.location == 'www.reddit.com') {
             checkAchievement('redditAccount', request.html);
         }
         else if (request.url == 'https://www.youtube.com/watch?v=dQw4w9WgXcQ') {
@@ -74,7 +78,7 @@ chrome.runtime.onMessage.addListener(
 
 // increments/initializes key val
 function incrementKey(key, newVal) {
-    var value;
+    console.log('incrementing key: ' + key);
     var json = {};
     // get current val
     chrome.storage.sync.get(key, function(result) {
@@ -139,6 +143,9 @@ function checkAchievement(achievement, data) {
             break;
         case 'numYoutubeVids':
             youtube();
+            break;
+        case 'numUnique':
+            unique();
             break;
         //--------Boolean Achievements--------//
         case 'redditAccount':
@@ -328,7 +335,7 @@ function youtube() {
     var numYoutubeVids;
     chrome.storage.sync.get('numYoutubeVids', function(result) {
         numYoutubeVids = result['numYoutubeVids'];
-        console.log('youtube(): numYoutubeVids: %s', numWikiReads);
+        console.log('youtube(): numYoutubeVids: %s', numYoutubeVids);
         // youtube4
         if (numYoutubeVids > 10000) {
             // set achievement to true if hasn't been achieved already
@@ -387,6 +394,89 @@ function youtube() {
         }
     });
 }
+
+// check if user location is new
+function checkUnique(location, callback) {
+    chrome.storage.sync.get('unique', function(result) {
+        console.log(result);
+        for (var i = 0; i < result.length; i++) {
+            if (result[i].includes(location)) {
+                callback(false);
+            }
+        }
+        console.log('found unique: ' + location);
+        // add unique to storage
+        result['unique'].push(location);
+        chrome.storage.sync.set({'unique': result['unique']});
+        callback(true);
+    });
+}
+
+// check number of unique websites
+function unique() {
+    var numUnique;
+    chrome.storage.sync.get('numUnique', function(result) {
+        numUnique = result['numUnique'];
+        console.log('unique(): numUnique: %s', numUnique);
+        // unique4
+        if (numUnique > 1000) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('unique4', function(result) {
+                if (!result['unique4']) {
+                    chrome.storage.sync.set({
+                        'unique4': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
+                }
+            });
+        }
+        // unique3
+        if (numUnique > 500) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('unique3', function(result) {
+                if (!result['unique3']) {
+                    chrome.storage.sync.set({
+                        'unique3': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
+                }
+            });
+        }
+        // unique2
+        else if (numUnique > 100) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('unique2', function(result) {
+                if (!result['unique2']) {
+                    chrome.storage.sync.set({
+                        'unique2': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
+                }
+            });
+        }
+        // unique1
+        else if (numUnique > 10) {
+            // set achievement to true if hasn't been achieved already
+            chrome.storage.sync.get('unique1', function(result) {
+                if (!result['unique1']) {
+                    chrome.storage.sync.set({
+                        'unique1': {
+                            "achieved": true,
+                            "date": new Date().toLocaleString()
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
 
 //----------------Boolean Achievements----------------//
 // parse reddit page to see if user has account
