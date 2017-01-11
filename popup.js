@@ -13,7 +13,7 @@ chrome.runtime.onMessage.addListener(
                         type: "basic",
                         title: key.title,
                         message: key.description,
-                        iconUrl: 'temp.png'
+                        iconUrl: 'assets/images/logo.png'
                     }
                     chrome.notifications.create(opt);
                 }
@@ -141,7 +141,7 @@ var Header = React.createClass({
                             Internet Achievements
                         </span>
                         <div id="points" className="grey-text text-darken-3">
-                            <i className="material-icons yellow-text text-darken-1">star</i>
+                            <img src="assets/images/logo.png" width="32px" height="32px"/>
                             Your Points: { this.props.points }
                         </div>
                     </div>

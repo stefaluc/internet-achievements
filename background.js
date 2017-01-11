@@ -69,7 +69,7 @@ chrome.runtime.onMessage.addListener(
         else if (request.url == 'https://www.youtube.com/watch?v=dQw4w9WgXcQ') {
             checkAchievement('rickRoll');
         }
-        else if (request.url == 'http://boards.4chan.org/b/') {
+        else if (request.url.includes('4chan.org/b')) {
             checkAchievement('4chan');
         }
         else if (request.location == 'www.youtube.com' && request.url.includes('cat')) {

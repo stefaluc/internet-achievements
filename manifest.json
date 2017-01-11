@@ -5,7 +5,8 @@
         "description": "",
         "version": "0.1",
         "browser_action": {
-            "default_title": "Internet Achievements"
+            "default_title": "Internet Achievements",
+            "default_icon": "assets/images/logo.png"
         },
         "permissions": [
             "activeTab",
