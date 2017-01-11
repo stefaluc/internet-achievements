@@ -1,11 +1,8 @@
 // reinitialize page when new achievement message is received
 chrome.runtime.onMessage.addListener(
     function(message, sender, sendResponse) {
-        console.log('popup.js receive message. sender: ' + message.sender);
         if (message.sender == "bg") {
             getJSON('achievements.json').then(function(json) {
-                console.log('reached notification start');
-                console.log(json);
                 // display rich notification for new achievement
                 for(var i = 0; i < message.achievements.length; i++) {
                     var key = json[message.achievements[i]];
@@ -93,7 +90,7 @@ var Main = React.createClass({
                 </div>
             </div>
         );
-        // generate CarouselItems if a incremental achievement was clicked
+        // generate CarouselItems if an incremental achievement was clicked
         var carouselComponents = [];
         if (this.state.carouselItems.components.length) {
             // get CarouselItem components
@@ -141,7 +138,7 @@ var Header = React.createClass({
                             Internet Achievements
                         </span>
                         <div id="points" className="grey-text text-darken-3">
-                            <img src="assets/images/logo.png" width="32px" height="32px"/>
+                            <i className="material-icons yellow-text text-darken-1">star</i>
                             Your Points: { this.props.points }
                         </div>
                     </div>
@@ -218,8 +215,6 @@ var AchievementsList = React.createClass({
             chrome.storage.sync.get(keys, function(result) {
                 // organize achievements into lists
                 var achieved = [], unachieved = [];
-                console.log(json);
-                console.log(result);
                 for (var i = 0; i < keys.length; i++) {
                     if (result[keys[i]] && result[keys[i]].achieved) { // achieved
                         json[keys[i]].date = result[keys[i]].date; // copy date to json
@@ -250,7 +245,6 @@ var AchievementsList = React.createClass({
                     }
                 }
                 // update state
-                console.log(achieved);
                 this.setAchieved(achieved);
                 this.setUnachieved(unachieved);
                 this.setRender(true);

@@ -5,9 +5,7 @@ function sniff() {
     var tab_html = document.body.innerHTML;
     var message = {url: tab_url, location: tab_location, html: tab_html};
     // send message to background.js
-    chrome.runtime.sendMessage(message, function() {
-        console.log("sent data from content_script.js");
-    });
+    chrome.runtime.sendMessage(message, function() {});
     clearInterval(interval);
 }
 
@@ -17,9 +15,7 @@ document.onkeydown = function(e) {
     if (e.key == 'Shift') return;
     if (smileProgress) {
         if (e.key == ')') {
-            chrome.runtime.sendMessage({"smile": true}, function() {
-                console.log('smile typed, sending message to background.js');
-            });
+            chrome.runtime.sendMessage({"smile": true}, function() {});
         } else {
             smileProgress = false;
         }

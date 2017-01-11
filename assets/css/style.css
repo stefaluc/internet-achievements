@@ -29,6 +29,7 @@
     font-size: 16px;
 }
 
+/* Override Materialize styles */
 .ex {
     font-size: 40px !important;
     color: red;
@@ -40,6 +41,10 @@
 
 .carousel {
     height: 300px !important;
+}
+
+.card-title {
+    line-height: 36px !important;
 }
 
 /* Checkmark */

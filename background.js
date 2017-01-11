@@ -1,11 +1,6 @@
 // initialize extension
 chrome.runtime.onInstalled.addListener(function() {
-    chrome.storage.sync.set({
-        'begin': {
-            "achieved": true,
-            "date": new Date().toLocaleString()
-        }
-    });
+    setAchievement('begin');
     chrome.storage.sync.set({'unique': []});
 });
 
@@ -50,6 +45,7 @@ chrome.runtime.onMessage.addListener(
             checkAchievement('smile');
             return;
         }
+        //--------Incremental Achievements--------//
         incrementKey('numPageLoads');
         if (request.location.includes('wikipedia.org')) {
             incrementKey('numWikiReads');
@@ -62,8 +58,8 @@ chrome.runtime.onMessage.addListener(
                 incrementKey('numUnique');
             }
         });
+        //--------Boolean Achievements--------//
         if (request.location == 'www.reddit.com') {
-            console.log(request.html);
             checkAchievement('redditAccount', request.html);
         }
         else if (request.url == 'https://www.youtube.com/watch?v=dQw4w9WgXcQ') {
@@ -134,8 +130,6 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
             newAchievements.push(key);
             continue;
         }
-        console.log("Storage key %s changed. Old val: %s, new val: %s",
-            key, change.oldValue, change.newValue);
         // check incremental achievement progress
         checkAchievement(key);
     }
@@ -146,7 +140,6 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
             achievements: newAchievements
         };
         chrome.runtime.sendMessage(message, function() {
-            console.log('sending message to popup.js');
         });
     }
 });
@@ -172,37 +165,39 @@ function checkAchievement(achievement, data) {
             break;
         //--------Boolean Achievements--------//
         case 'redditAccount':
-            redditAccount(data);
+            if(!data.includes('Want to join?')) {
+                setAchievement('redditAccount');
+            }
             break;
         case 'rickRoll':
-            rickRoll();
+            setAchievement('rickRoll');
             break;
         case 'catVideos':
-            catVideos();
+            setAchievement('catVideos');
             break;
         case 'smile':
-            smile();
+            setAchievement('smile');
             break;
         case '4chan':
-            fourChan();
+            setAchievement('4chan');
             break;
         case 'tabs':
-            tabs();
+            setAchievement('tabs');
             break;
         case 'urbanDict':
-            urbanDict();
+            setAchievement('urbanDict');
             break;
         case 'earlyBird':
-            earlyBird();
+            setAchievement('earlyBird');
             break;
         case 'nightOwl':
-            nightOwl();
+            setAchievement('nightOwl');
             break;
         case 'archive':
-            archive();
+            setAchievement('archive');
             break;
         case 'zombocom':
-            zombocom();
+            setAchievement('zombocom');
             break;
         default:
             return '';
@@ -215,7 +210,6 @@ function checkAchievement(achievement, data) {
 function pageLoads() {
     chrome.storage.sync.get('numPageLoads', function(result) {
         var numPageLoads = result['numPageLoads'];
-        console.log('pageLoads(): numPageLoads: %s', numPageLoads);
         // pagesLoads6
         if (numPageLoads > 100000) {
             setAchievement('pageLoads6');
@@ -252,7 +246,6 @@ function pageLoads() {
 function wiki() {
     chrome.storage.sync.get('numWikiReads', function(result) {
         var numWikiReads = result['numWikiReads'];
-        console.log('wiki(): numWikiReads: %s', numWikiReads);
         if (numWikiReads > 10000) {
             setAchievement('wiki4');
             return;
@@ -276,7 +269,6 @@ function wiki() {
 function youtube() {
     chrome.storage.sync.get('numYoutubeVids', function(result) {
         var numYoutubeVids = result['numYoutubeVids'];
-        console.log('youtube(): numYoutubeVids: %s', numYoutubeVids);
         if (numYoutubeVids > 10000) {
             setAchievement('youtube4');
             return;
@@ -298,7 +290,6 @@ function youtube() {
 // check if user location is new
 function checkUnique(location, callback) {
     chrome.storage.sync.get('unique', function(result) {
-        console.log(result);
         var list = result['unique'];
         for (var i = 0; i < list.length; i++) {
             if (list[i].includes(location)) {
@@ -306,7 +297,6 @@ function checkUnique(location, callback) {
                 return;
             }
         }
-        console.log('found unique: ' + location);
         // add unique to storage
         list.push(location);
         chrome.storage.sync.set({'unique': list});
@@ -318,7 +308,6 @@ function checkUnique(location, callback) {
 function unique() {
     chrome.storage.sync.get('numUnique', function(result) {
         var numUnique = result['numUnique'];
-        console.log('unique(): numUnique: %s', numUnique);
         if (numUnique > 1000) {
             setAchievement('unique4');
             return;
@@ -335,64 +324,4 @@ function unique() {
             setAchievement('unique1');
         }
     });
-}
-
-
-//----------------Boolean Achievements----------------//
-// parse reddit page to see if user has account
-function redditAccount(data) {
-    // message "Want to join?" won't be present on reddit page if user isn't logged in
-    if(!data.includes('Want to join?')) {
-        setAchievement('redditAccount');
-    }
-}
-
-// user has been rick rolled
-function rickRoll() {
-    setAchievement('rickRoll');
-}
-
-// user is watching cat videos
-function catVideos() {
-    setAchievement('catVideos');
-}
-
-// user type a smile
-function smile() {
-    setAchievement('smile');
-}
-
-// user visited 4chan /b/
-function fourChan() {
-    setAchievement('fourChan');
-}
-
-// user opened up more than 12 tabs at once
-function tabs() {
-    setAchievement('tabs');
-}
-
-// user looked up word on urban dictionary
-function urbanDict() {
-    setAchievement('urbanDict');
-}
-
-// user was browsing between 5 and 6 AM
-function earlyBird() {
-    setAchievement('earlyBird');
-}
-
-// user was browsing between 1 and 2 AM
-function nightOwl() {
-    setAchievement('nightOwl');
-}
-
-// user viewed internet archive
-function archive() {
-    setAchievement('archive');
-}
-
-// user viewed zombocom
-function zombocom() {
-    setAchievement('zombocom');
 }

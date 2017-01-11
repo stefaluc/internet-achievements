@@ -2,7 +2,6 @@
     "begin": {
         "title": "The Adventure Begins",
         "description": "Start your achievement hunting adventure by downloading the Internet Achievements extension",
-        "image": "assets/images/1.jpg",
         "points": 5,
         "type": "boolean",
         "group": []
@@ -10,7 +9,6 @@
     "pageLoads1": {
         "title": "Beginner Browser",
         "description": "Achieve 10 page views",
-        "image": "assets/images/1.jpg",
         "points": 10,
         "type": "incremental",
         "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"],
@@ -19,7 +17,6 @@
     "pageLoads2": {
         "title": "Newbie",
         "description": "Achieve 100 page views",
-        "image": "assets/images/2.jpg",
         "points": 15,
         "type": "incremental",
         "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"],
@@ -28,7 +25,6 @@
     "pageLoads3": {
         "title": "Up-and-Comer",
         "description": "Achieve 1000 page views",
-        "image": "assets/images/3.jpg",
         "points": 20,
         "type": "incremental",
         "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"],
@@ -37,7 +33,6 @@
     "pageLoads4": {
         "title": "Web Surfer",
         "description": "Achieve 10000 page views",
-        "image": "assets/images/3.jpg",
         "points": 25,
         "type": "incremental",
         "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"],
@@ -46,7 +41,6 @@
     "pageLoads5": {
         "title": "Internet Addict",
         "description": "Achieve 50000 page views",
-        "image": "assets/images/3.jpg",
         "points": 50,
         "type": "incremental",
         "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"],
@@ -55,7 +49,6 @@
     "pageLoads6": {
         "title": "Centarian",
         "description": "Achieve 100000 page views",
-        "image": "assets/images/3.jpg",
         "points": 75,
         "type": "incremental",
         "group": ["pageLoads1", "pageLoads2", "pageLoads3", "pageLoads4", "pageLoads5", "pageLoads6"],
@@ -64,7 +57,6 @@
     "wiki1": {
         "title": "Knowledge is Power",
         "description": "Read 10 Wikipedia articles",
-        "image": "assets/images/4.jpg",
         "points": 10,
         "type": "incremental",
         "group": ["wiki1", "wiki2", "wiki3", "wiki4"],
@@ -73,7 +65,6 @@
     "wiki2": {
         "title": "Casual Researcher",
         "description": "Read 100 Wikipedia articles",
-        "image": "assets/images/4.jpg",
         "points": 25,
         "type": "incremental",
         "group": ["wiki1", "wiki2", "wiki3", "wiki4"],
@@ -82,7 +73,6 @@
     "wiki3": {
         "title": "Analyst",
         "description": "Read 1000 Wikipedia articles",
-        "image": "assets/images/4.jpg",
         "points": 50,
         "type": "incremental",
         "group": ["wiki1", "wiki2", "wiki3", "wiki4"],
@@ -91,43 +81,38 @@
     "wiki4": {
         "title": "Scholar",
         "description": "Read 10000 Wikipedia articles",
-        "image": "assets/images/4.jpg",
         "points": 75,
         "type": "incremental",
         "group": ["wiki1", "wiki2", "wiki3", "wiki4"],
         "stats": "numWikiReads"
     },
     "youtube1": {
-        "title": "youtube1",
+        "title": "YouTuber",
         "description": "Watch 10 YouTube videos",
-        "image": "assets/images/4.jpg",
         "points": 10,
         "type": "incremental",
         "group": ["youtube1", "youtube2", "youtube3", "youtube4"],
         "stats": "numYoutubeVids"
     },
     "youtube2": {
-        "title": "youtube2",
+        "title": "Video Viewer",
         "description": "Watch 100 YouTube videos",
-        "image": "assets/images/4.jpg",
         "points": 25,
         "type": "incremental",
         "group": ["youtube1", "youtube2", "youtube3", "youtube4"],
         "stats": "numYoutubeVids"
     },
     "youtube3": {
-        "title": "youtube3",
+        "title": "Film Buff",
         "description": "Watch 1000 YouTube videos",
-        "image": "assets/images/4.jpg",
         "points": 50,
         "type": "incremental",
         "group": ["youtube1", "youtube2", "youtube3", "youtube4"],
         "stats": "numYoutubeVids"
     },
     "youtube4": {
-        "title": "youtube4",
+        "title": "Cinephile",
         "description": "Watch 10000 YouTube videos",
-        "image": "assets/images/4.jpg",
         "points": 75,
         "type": "incremental",
         "group": ["youtube1", "youtube2", "youtube3", "youtube4"],
@@ -136,7 +121,6 @@
     "unique1": {
         "title": "Getting Out There",
         "description": "Visit 10 unique websites",
-        "image": "assets/images/4.jpg",
         "points": 10,
         "type": "incremental",
         "group": ["unique1", "unique2", "unique3", "unique4"],
@@ -145,7 +129,6 @@
     "unique2": {
         "title": "Tourist",
         "description": "Visit 100 unique websites",
-        "image": "assets/images/4.jpg",
         "points": 25,
         "type": "incremental",
         "group": ["unique1", "unique2", "unique3", "unique4"],
@@ -154,7 +137,6 @@
     "unique3": {
         "title": "Adventurer",
         "description": "Visit 500 unique websites",
-        "image": "assets/images/4.jpg",
         "points": 50,
         "type": "incremental",
         "group": ["unique1", "unique2", "unique3", "unique4"],
@@ -163,7 +145,6 @@
     "unique4": {
         "title": "Seasoned Explorer",
         "description": "Visit 1000 unique websites",
-        "image": "assets/images/4.jpg",
         "points": 75,
         "type": "incremental",
         "group": ["unique1", "unique2", "unique3", "unique4"],
@@ -172,7 +153,6 @@
     "redditAccount": {
         "title": "Redditor",
         "description": "Create a reddit account",
-        "image": "assets/images/4.jpg",
         "points": 10,
         "type": "boolean",
         "group": []
@@ -180,7 +160,6 @@
     "rickRoll": {
         "title": "Rick Rolled",
         "description": "Get bamboozled by someone",
-        "image": "assets/images/4.jpg",
         "points": 10,
         "type": "boolean",
         "group": []
@@ -188,7 +167,6 @@
     "catVideos": {
         "title": "Crazy Cat Person",
         "description": "Watch cat videos online",
-        "image": "assets/images/4.jpg",
         "points": 10,
         "type": "boolean",
         "group": []
@@ -196,7 +174,6 @@
     "smile": {
         "title": "Smile More",
         "description": "Spread some happiness around the Internet",
-        "image": "assets/images/4.jpg",
         "points": 15,
         "type": "boolean",
         "group": []
@@ -204,7 +181,6 @@
     "4chan": {
         "title": "Shitposter",
         "description": "Visit a very... unique community on the Internet",
-        "image": "assets/images/4.jpg",
         "points": 10,
         "type": "boolean",
         "group": []
@@ -212,7 +188,6 @@
     "tabs": {
         "title": "Multi-tasker",
         "description": "Writing a paper? Doing research? Working on a project? It happens, but you should probably clean up",
-        "image": "assets/images/4.jpg",
         "points": 15,
         "type": "boolean",
         "group": []
@@ -220,7 +195,6 @@
     "urbanDict": {
         "title": "Double Meaning",
         "description": "Look up a word on Urban Dictionary",
-        "image": "assets/images/4.jpg",
         "points": 15,
         "type": "boolean",
         "group": []
@@ -228,7 +202,6 @@
     "earlyBird": {
         "title": "Early Bird",
         "description": "Browse the Internet in the early day. Everyone envys a morning person",
-        "image": "assets/images/4.jpg",
         "points": 20,
         "type": "boolean",
         "group": []
@@ -236,7 +209,6 @@
     "nightOwl": {
         "title": "Night Owl",
         "description": "Browse the Internet late into the night. After all, nothing fun happens before sundown",
-        "image": "assets/images/4.jpg",
         "points": 20,
         "type": "boolean",
         "group": []
@@ -244,7 +216,6 @@
     "archive": {
         "title": "The Good Ole Days",
         "description": "Bask in the nostalgia of what your favorite websites used to be like",
-        "image": "assets/images/4.jpg",
         "points": 15,
         "type": "boolean",
         "group": []
@@ -252,7 +223,6 @@
     "zombocom": {
         "title": "Zombocom",
         "description": "You can do anything at ZomboCom. Anything at all. The only limit is yourself. Welcome... to ZomboCom",
-        "image": "assets/images/4.jpg",
         "points": 15,
         "type": "boolean",
         "group": []
