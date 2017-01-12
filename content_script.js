@@ -9,7 +9,9 @@ function sniff() {
     clearInterval(interval);
 }
 
-// detect user typing smile
+// detect user typing a smile or the Konami Code
+var konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+var kcPos = 0;
 var smileProgress = false;
 document.onkeydown = function(e) {
     if (e.key == 'Shift') return;
@@ -21,5 +23,12 @@ document.onkeydown = function(e) {
         }
     } else if (e.key == ':') {
         smileProgress = true;
+    } else if (e.key == konamiCode[kcPos]) {
+        if (kcPos == konamiCode.length - 1) {
+            chrome.runtime.sendMessage({"konamiCode": true}, function() {});
+        }
+        kcPos++;
+    } else {
+        kcPos = 0;
     }
 }

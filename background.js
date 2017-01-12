@@ -41,8 +41,13 @@ function openPopup() {
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         var time = new Date();
+        //--------Key Event Achievements--------//
         if (request.smile) {
             checkAchievement('smile');
+            return;
+        }
+        if (request.konamiCode) {
+            checkAchievement('konamiCode');
             return;
         }
         //--------Incremental Achievements--------//
@@ -52,6 +57,9 @@ chrome.runtime.onMessage.addListener(
         }
         else if (request.url.includes('youtube.com/watch')) {
             incrementKey('numYoutubeVids');
+        } 
+        else if (request.url.includes('google.com') && request.url.includes('q=')) {
+            incrementKey('numGoogles');
         }
         checkUnique(request.location, function(result) {
             if (result) {
@@ -163,6 +171,9 @@ function checkAchievement(achievement, data) {
         case 'numUnique':
             unique();
             break;
+        case 'numGoogles':
+            google();
+            break;
         //--------Boolean Achievements--------//
         case 'redditAccount':
             if(!data.includes('Want to join?')) {
@@ -199,6 +210,9 @@ function checkAchievement(achievement, data) {
         case 'zombocom':
             setAchievement('zombocom');
             break;
+        case 'konamiCode':
+            setAchievement('konamiCode');
+            break;
         default:
             return '';
     }
@@ -211,32 +225,32 @@ function pageLoads() {
     chrome.storage.sync.get('numPageLoads', function(result) {
         var numPageLoads = result['numPageLoads'];
         // pagesLoads6
-        if (numPageLoads > 100000) {
+        if (numPageLoads >= 100000) {
             setAchievement('pageLoads6');
             return;
         }
         // pagesLoads5
-        if (numPageLoads > 50000) {
+        if (numPageLoads >= 50000) {
             setAchievement('pageLoads5');
             return;
         }
         // pagesLoads4
-        if (numPageLoads > 10000) {
+        if (numPageLoads >= 10000) {
             setAchievement('pageLoads4');
             return;
         }
         // pageLoads3
-        else if (numPageLoads > 1000) {
+        else if (numPageLoads >= 1000) {
             setAchievement('pageLoads3');
             return;
         }
         // pageLoads2
-        else if (numPageLoads > 100) {
+        else if (numPageLoads >= 100) {
             setAchievement('pageLoads2');
             return;
         }
         // pageLoads1
-        else if (numPageLoads > 10) {
+        else if (numPageLoads >= 10) {
             setAchievement('pageLoads1');
         }
     });
@@ -246,19 +260,19 @@ function pageLoads() {
 function wiki() {
     chrome.storage.sync.get('numWikiReads', function(result) {
         var numWikiReads = result['numWikiReads'];
-        if (numWikiReads > 10000) {
+        if (numWikiReads >= 10000) {
             setAchievement('wiki4');
             return;
         }
-        if (numWikiReads > 1000) {
+        if (numWikiReads >= 1000) {
             setAchievement('wiki3');
             return;
         }
-        else if (numWikiReads > 100) {
+        else if (numWikiReads >= 100) {
             setAchievement('wiki2');
             return;
         }
-        else if (numWikiReads > 10) {
+        else if (numWikiReads >= 10) {
             setAchievement('wiki1');
             return;
         }
@@ -269,19 +283,19 @@ function wiki() {
 function youtube() {
     chrome.storage.sync.get('numYoutubeVids', function(result) {
         var numYoutubeVids = result['numYoutubeVids'];
-        if (numYoutubeVids > 10000) {
+        if (numYoutubeVids >= 10000) {
             setAchievement('youtube4');
             return;
         }
-        else if (numYoutubeVids > 1000) {
+        else if (numYoutubeVids >= 1000) {
             setAchievement('youtube3');
             return;
         }
-        else if (numYoutubeVids > 100) {
+        else if (numYoutubeVids >= 100) {
             setAchievement('youtube2');
             return;
         }
-        else if (numYoutubeVids > 10) {
+        else if (numYoutubeVids >= 10) {
             setAchievement('youtube1');
         }
     });
@@ -308,20 +322,42 @@ function checkUnique(location, callback) {
 function unique() {
     chrome.storage.sync.get('numUnique', function(result) {
         var numUnique = result['numUnique'];
-        if (numUnique > 1000) {
+        if (numUnique >= 1000) {
             setAchievement('unique4');
             return;
         }
-        else if (numUnique > 500) {
+        else if (numUnique >= 500) {
             setAchievement('unique3');
             return;
         }
-        else if (numUnique > 100) {
+        else if (numUnique >= 100) {
             setAchievement('unique2');
             return;
         }
-        else if (numUnique > 10) {
+        else if (numUnique >= 10) {
             setAchievement('unique1');
+        }
+    });
+}
+
+// check number of google searches
+function google() {
+    chrome.storage.sync.get('numGoogles', function(result) {
+        var numGoogles = result['numGoogles'];
+        if (numGoogles >= 5000) {
+            setAchievement('google4');
+            return;
+        }
+        else if (numGoogles >= 1000) {
+            setAchievement('google3');
+            return;
+        }
+        else if (numGoogles >= 100) {
+            setAchievement('google2');
+            return;
+        }
+        else if (numGoogles >= 10) {
+            setAchievement('google1');
         }
     });
 }

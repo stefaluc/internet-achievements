@@ -150,6 +150,38 @@
         "group": ["unique1", "unique2", "unique3", "unique4"],
         "stats": "numUnique"
     },
+    "google1": {
+        "title": "Googler I",
+        "description": "Submit 10 Google searches",
+        "points": 10,
+        "type": "incremental",
+        "group": ["google1", "google2", "google3", "google4"],
+        "stats": "numGoogles"
+    },
+    "google2": {
+        "title": "Googler II",
+        "description": "Submit 100 Google searches",
+        "points": 25,
+        "type": "incremental",
+        "group": ["google1", "google2", "google3", "google4"],
+        "stats": "numGoogles"
+    },
+    "google3": {
+        "title": "Googler III",
+        "description": "Submit 500 Google searches",
+        "points": 50,
+        "type": "incremental",
+        "group": ["google1", "google2", "google3", "google4"],
+        "stats": "numGoogles"
+    },
+    "google4": {
+        "title": "Googler IV",
+        "description": "Submit 1000 Google searches",
+        "points": 75,
+        "type": "incremental",
+        "group": ["google1", "google2", "google3", "google4"],
+        "stats": "numGoogles"
+    },
     "redditAccount": {
         "title": "Redditor",
         "description": "Create a reddit account",
@@ -223,6 +255,13 @@
     "zombocom": {
         "title": "Zombocom",
         "description": "You can do anything at ZomboCom. Anything at all. The only limit is yourself. Welcome... to ZomboCom",
+        "points": 15,
+        "type": "boolean",
+        "group": []
+    },
+    "konamiCode": {
+        "title": "Konami Code",
+        "description": "Enter the Konami Code into any website",
         "points": 15,
         "type": "boolean",
         "group": []

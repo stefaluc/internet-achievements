@@ -4,6 +4,11 @@
         "name": "Internet Achievements",
         "description": "Internet Achievements adds a sense of accomplishment to your normal mundane Internet browsing.",
         "version": "1.0",
+        "icons": {
+            "16": "assets/images/icon16.png",
+            "48": "assets/images/icon48.png",
+            "128": "assets/images/icon128.png"
+        },
         "browser_action": {
             "default_title": "Internet Achievements",
             "default_icon": "assets/images/logo.png"
