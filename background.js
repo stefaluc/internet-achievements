@@ -1,7 +1,13 @@
 // initialize extension
 chrome.runtime.onInstalled.addListener(function() {
     setAchievement('begin');
+    // init storage vars
     chrome.storage.sync.set({'unique': []});
+    chrome.storage.sync.set({'numPageLoads': 0});
+    chrome.storage.sync.set({'numWikiReads': 0});
+    chrome.storage.sync.set({'numYoutubeVids': 0});
+    chrome.storage.sync.set({'numUnique': 0});
+    chrome.storage.sync.set({'numGoogles': 0});
 });
 
 // checks number of tabs every time a new tab is added
@@ -128,13 +134,30 @@ function setAchievement(key) {
     });
 }
 
+// creates xhr promise to get a url
+var getJSON = function(url) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', chrome.extension.getURL(url), true);
+        xhr.responseType = 'json';
+        xhr.onload = function() {
+            if (xhr.status == 200) {
+                resolve(xhr.response);
+            } else {
+                reject(xhr.status);
+            }
+        };
+        xhr.send();
+    });
+}
+
 // listens for changes in storage
 chrome.storage.onChanged.addListener(function(changes, namespace) {
     var newAchievements = [];
     for (key in changes) {
         var change = changes[key];
         // boolean key, don't need to check
-        if (typeof(change.newValue) == 'object') {
+        if (!key.includes('num') && key != 'unique') {
             newAchievements.push(key);
             continue;
         }
@@ -147,7 +170,21 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
             sender: "bg",
             achievements: newAchievements
         };
-        chrome.runtime.sendMessage(message, function() {
+        chrome.runtime.sendMessage(message, function() {});
+        getJSON('achievements.json').then(function(json) {
+            // display rich notification for new achievement
+            for(var i = 0; i < message.achievements.length; i++) {
+                var key = json[message.achievements[i]];
+                var opt = {
+                    type: "basic",
+                    title: key.title,
+                    message: key.description,
+                    iconUrl: 'assets/images/logo.png'
+                }
+                chrome.notifications.create(opt);
+            }
+        }, function(status) { // Promise rejected
+            alert('Error in xhr request, status of: ' + status);
         });
     }
 });

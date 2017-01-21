@@ -2,22 +2,7 @@
 chrome.runtime.onMessage.addListener(
     function(message, sender, sendResponse) {
         if (message.sender == "bg") {
-            getJSON('achievements.json').then(function(json) {
-                // display rich notification for new achievement
-                for(var i = 0; i < message.achievements.length; i++) {
-                    var key = json[message.achievements[i]];
-                    var opt = {
-                        type: "basic",
-                        title: key.title,
-                        message: key.description,
-                        iconUrl: 'assets/images/logo.png'
-                    }
-                    chrome.notifications.create(opt);
-                }
-                location.reload();
-            }, function(status) { // Promise rejected
-                alert('Error in xhr request, status of: ' + status);
-            });
+            location.reload();
         }
     }
 );
