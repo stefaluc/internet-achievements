@@ -1,6 +1,7 @@
 // initialize extension
 chrome.runtime.onInstalled.addListener(function() {
     setAchievement('begin');
+    openPopup();
     // init storage vars
     chrome.storage.sync.set({'unique': []});
     chrome.storage.sync.set({'numPageLoads': 0});
@@ -99,6 +100,25 @@ chrome.runtime.onMessage.addListener(
         }
         else if (request.url.includes('zombo')) {
             checkAchievement('zombocom');
+        }
+        else if (request.url.includes('ruinmysearchhistory')) {
+            checkAchievement('ruinHistory');
+        }
+        else if (request.url.includes('time') && request.url.includes('cube')) {
+            checkAchievement('timeCube');
+        }
+        else if (request.location.includes('downloadmoreram')) {
+            checkAchievement('moreRam');
+        }
+        else if (request.location.includes('github')) {
+            checkAchievement('github');
+        }
+        else if (request.location.includes('omegle') ||
+                    request.location.includes('chatroulette')) {
+            checkAchievement('onlineChat');
+        }
+        else if (request.location.includes('thepiratebay')) {
+            checkAchievement('pirate');
         }
     }
 );
@@ -249,6 +269,24 @@ function checkAchievement(achievement, data) {
             break;
         case 'konamiCode':
             setAchievement('konamiCode');
+            break;
+        case 'ruinHistory':
+            setAchievement('ruinHistory');
+            break;
+        case 'timeCube':
+            setAchievement('timeCube');
+            break;
+        case 'moreRam':
+            setAchievement('moreRam');
+            break;
+        case 'github':
+            setAchievement('github');
+            break;
+        case 'onlineChat':
+            setAchievement('onlineChat');
+            break;
+        case 'pirate':
+            setAchievement('pirate');
             break;
         default:
             return '';

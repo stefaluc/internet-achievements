@@ -265,5 +265,47 @@
         "points": 15,
         "type": "boolean",
         "group": []
+    },
+    "ruinHistory": {
+        "title": "Watchlist",
+        "description": "Ruin your search history with the click of a button",
+        "points": 15,
+        "type": "boolean",
+        "group": []
+    },
+    "timeCube": {
+        "title": "Time Cube",
+        "description": "Reality as we know it is a lie. Do a little bit of research into the famous online conspiracy theory of everything",
+        "points": 15,
+        "type": "boolean",
+        "group": []
+    },
+    "moreRam": {
+        "title": "Download More Ram",
+        "description": "Computer acting a little bit groggy? Try downloading some RAM to increase your computer's speed!",
+        "points": 15,
+        "type": "boolean",
+        "group": []
+    },
+    "github": {
+        "title": "Checking the Source",
+        "description": "Check out the code to an open source project",
+        "points": 15,
+        "type": "boolean",
+        "group": []
+    },
+    "onlineChat": {
+        "title": "Chatroulette",
+        "description": "Visit a site that lets you chat with strangers online. Maybe you'll make a new friend! More likely, you'll just see some unwanted explicit content",
+        "points": 15,
+        "type": "boolean",
+        "group": []
+    },
+    "pirate": {
+        "title": "Internet Pirate",
+        "description": "Visit a peer-to-peer file sharing website",
+        "points": 15,
+        "type": "boolean",
+        "group": []
     }
 }

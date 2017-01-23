@@ -3,7 +3,7 @@
 
         "name": "Internet Achievements",
         "description": "Internet Achievements adds a sense of accomplishment to your normal mundane Internet browsing.",
-        "version": "1.0",
+        "version": "1.0.3",
         "icons": {
             "16": "assets/images/icon16.png",
             "48": "assets/images/icon48.png",
